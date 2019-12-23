@@ -1,7 +1,24 @@
 {
   "name": "mern_basics",
+  "description": "A MERN stack core structure",
   "version": "0.1.0",
   "private": true,
+  "watch": {
+    "test": {
+      "patterns": [
+        "server/**",
+        "src/**"
+      ],
+      "extensions": "js,jsx",
+      "quiet": true,
+      "delay": 3000
+    }
+  },
+  "author": {
+    "name": "Roberto Lucas",
+    "email": "andre.rlucas@outlook.com",
+    "url": "https://github.com/AndlerRL"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -26,10 +43,21 @@
     "styled-components": "^4.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-react": "react-scripts start",
+    "start": "node server/server.js",
+    "test": "jest --env=jsdom --colors",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
+    "deploy": "npm run build; cf push",
+    "dev": "cross-env NODE_ENV=development nf --procfile Procfile-dev --port 1313 start",
+    "dev:server": "nodemon server/server.js",
+    "lint": "eslint --ext .js --ext .jsx --color .",
+    "lint:fix": "npm run lint -- --fix",
+    "pretest": "npm run lint",
+    "prebuild": "npm run test",
+    "watch": "npm-watch"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -67,5 +95,19 @@
     "npm-watch": "^0.6.0",
     "react-scripts": "^3.3.0",
     "sinon": "^8.0.1"
-  }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/tests/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/tests/config/setupTests.js",
+      "<rootDir>/server/tests/config/setupTests.js"
+    ]
+  },
+  "proxy": "http://localhost:1313"
 }
