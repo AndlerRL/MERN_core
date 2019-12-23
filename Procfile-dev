@@ -1,0 +1,3 @@
+srv: nodemon -w 'server' --ignore 'server/tests/**'
+web: npm run start-react
+tl: npm run watch
