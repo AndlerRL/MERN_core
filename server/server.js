@@ -15,7 +15,7 @@ log4js.configure({
   categories: { default: { appenders: ['console'], level: process.env.LOG_LEVEL } }
 });
 
-const logger = log4js.getLogget(appName);
+const logger = log4js.getLogged(appName);
 
 app.use(log4js.connectLogger(logger, { level: process.env.LOG_LEVEL || 'debug' }));
 
