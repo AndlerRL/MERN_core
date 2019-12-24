@@ -15,7 +15,7 @@ log4js.configure({
   categories: { default: { appenders: ['console'], level: process.env.LOG_LEVEL } }
 });
 
-const logger = log4js.getLogged(appName);
+const logger = log4js.getLogger(appName);
 
 app.use(log4js.connectLogger(logger, { level: process.env.LOG_LEVEL || 'debug' }));
 
@@ -31,7 +31,7 @@ require('./db/db');
 /**
  * Setting API endpoint.
  */
-const apiRouter = require('./routers/api');
+const apiRouter = require('./routes/api');
 app.use('/api', apiRouter);
 
 if (process.env.NODE_ENV === 'production') {
