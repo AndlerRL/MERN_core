@@ -26,7 +26,7 @@ ctrl.getPost = async (req, res) => {
     logger.warn(err.message);
     responseService.json(res, 404, err);
   }
-}
+};
 
 ctrl.createPost = async (req, res) => {
   try {

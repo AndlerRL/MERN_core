@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable func-style */
+/* eslint-disable no-console */
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -46,7 +49,8 @@ export function register(config) {
               'worker. To learn more, visit https://bit.ly/CRA-PWA'
           );
         });
-      } else {
+      }
+      else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
@@ -60,9 +64,9 @@ function registerValidSW(swUrl, config) {
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
-        if (installingWorker == null) {
+        if (installingWorker == null) 
           return;
-        }
+        
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
@@ -75,19 +79,18 @@ function registerValidSW(swUrl, config) {
               );
 
               // Execute callback
-              if (config && config.onUpdate) {
+              if (config && config.onUpdate) 
                 config.onUpdate(registration);
-              }
-            } else {
+            }
+            else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
               console.log('Content is cached for offline use.');
 
               // Execute callback
-              if (config && config.onSuccess) {
+              if (config && config.onSuccess) 
                 config.onSuccess(registration);
-              }
             }
           }
         };
@@ -116,7 +119,8 @@ function checkValidServiceWorker(swUrl, config) {
             window.location.reload();
           });
         });
-      } else {
+      }
+      else {
         // Service worker found. Proceed as normal.
         registerValidSW(swUrl, config);
       }

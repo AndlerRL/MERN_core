@@ -3,6 +3,9 @@
   "description": "A MERN stack core structure",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^9.4.0"
+  },
   "watch": {
     "test": {
       "patterns": [

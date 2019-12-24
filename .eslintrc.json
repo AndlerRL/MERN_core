@@ -290,9 +290,6 @@
     ],
 
     // Accessibility
-    "jsx-a11y/img-has-alt": [
-      "error"
-    ],
     "jsx-a11y/img-redundant-alt": [
       "error",
       { "words": ["Foto", "Imagen"] }
