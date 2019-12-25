@@ -4,12 +4,20 @@ service.isRevved = path => {
   const fn = service.extractFilename(path);
   const splitted = fn.split('.');
 
-  if (splitted.length > 2)
-    return service.isHash(splitted[1]);
+  if (splitted.length > 2) {
+    const hash = splitted[1];
+    return service.isHash(hash);
+  }
 
   return false;
 };
 
-service.extractFilename = path => path.split('/')[path.split('/').length - 1];
+service.extractFilename = path => {
+  const splitted = path.split('/');
+  return splitted[path.split('/').length - 1];
+};
 
-service.isHash = hash => /[0-9A-Fa-f]/.test(hash);
+service.isHash = hash => {
+  const regEx = /[0-9A-Fa-f]/;
+  return regEx.test(hash);
+};

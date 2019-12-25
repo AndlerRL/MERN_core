@@ -30,8 +30,7 @@ ctrl.getPost = async (req, res) => {
 
 ctrl.createPost = async (req, res) => {
   try {
-    logger.info(`Creating Post...\n${req.body}`);
-    // const { id, first, last, text, topics, date } = req.body;
+    logger.info('Creating Post...');
     const post = await Post.create(req.body);
 
     responseService.json(res, 201, post);

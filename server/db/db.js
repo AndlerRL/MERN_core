@@ -11,7 +11,8 @@ const url = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URL : 'm
  * sslCA
  */
 const opt = {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 };
 
 const errHandler = err => {
