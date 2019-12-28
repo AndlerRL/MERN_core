@@ -10,7 +10,13 @@ const url = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URL : 'm
  * sslValidate
  * sslCA
  */
-const opt = {
+const opt = process.env.NODE_ENV === 'production' ? {
+  ssl: true,
+  sslValidate: true,
+  sslCA: ['https://mern-core.netlify.com/'],
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+} : {
   useNewUrlParser: true,
   useUnifiedTopology: true
 };

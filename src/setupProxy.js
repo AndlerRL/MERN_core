@@ -4,9 +4,9 @@ module.exports = app => {
   app.use(
     '/api',
     proxy({
-      target: 'http://localhost:1313',
+      target: process.env.NODE_ENV === 'production' ? 'https://mern-core.netlify.com/' : 'http://localhost:1313',
       changeOrigin: true,
-      secure: false
+      secure: process.env.NODE_ENV === 'production' || false
     })
   );
 };
