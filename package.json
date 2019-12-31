@@ -49,7 +49,9 @@
     "styled-components": "^4.4.1"
   },
   "scripts": {
-    "build": "netlify-lambda build express",
+    "build": "npm run build:app && npm run build:functions",
+    "build:app": "react-scripts build",
+    "build:functions": "netlify-lambda build server",
     "eject": "react-scripts eject",
     "start-react": "react-scripts start",
     "start": "nodemon server-local.js",
@@ -105,7 +107,10 @@
     "npm-watch": "^0.6.0",
     "react-scripts": "^3.3.0",
     "serverless-http": "^2.3.0",
-    "sinon": "^8.0.1"
+    "sinon": "^8.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "jest": {
     "moduleNameMapper": {

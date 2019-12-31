@@ -8,6 +8,7 @@ const path = require('path');
 const serveStatic = require('serve-static');
 const serverless = require('serverless-http');
 const revUtils = require('./services/revUtils');
+const router = require('express').Router();
 const cwd = process.cwd();
 
 log4js.configure({
@@ -60,6 +61,8 @@ app.use((req, res) => {
     message: '404 – Route Not Found'
   });
 });
+
+app.use('/.netlify/functions-build/server', router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
