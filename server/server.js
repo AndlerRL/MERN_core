@@ -1,5 +1,4 @@
 require('dotenv').config();
-const PORT = 1313;
 const app = require('express')();
 const appName = require('./../package').name;
 const compression = require('compression');
@@ -7,6 +6,7 @@ const bodyParser = require('body-parser');
 const log4js = require('log4js');
 const path = require('path');
 const serveStatic = require('serve-static');
+const serverless = require('serverless-http');
 const revUtils = require('./services/revUtils');
 const cwd = process.cwd();
 
@@ -61,9 +61,5 @@ app.use((req, res) => {
   });
 });
 
-const port = process.env.PORT || PORT;
-
-app.listen(port, () => {
-  logger.info(`Current Work Directory => ${cwd}`);
-  logger.info(`Server listening on http://localhost:${port}`);
-});
+module.exports = app;
+module.exports.handler = serverless(app);

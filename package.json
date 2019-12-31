@@ -49,16 +49,16 @@
     "styled-components": "^4.4.1"
   },
   "scripts": {
-    "build": "react-scripts build",
+    "build": "netlify-lambda build express",
     "eject": "react-scripts eject",
     "start-react": "react-scripts start",
-    "start": "node server/server.js",
+    "start": "nodemon server-local.js",
     "test": "jest --env=jsdom --colors",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "deploy": "npm run build; cf push",
     "dev": "cross-env NODE_ENV=development nf --procfile Procfile-dev --port 1313 start",
-    "dev:server": "nodemon server/server.js",
+    "dev:server": "nodemon server-local.js",
     "lint": "eslint --ext .js --ext .jsx --color .",
     "lint:fix": "npm run lint -- --fix",
     "pretest": "npm run lint",
@@ -100,9 +100,11 @@
     "foreman": "^3.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
+    "netlify-lambda": "^1.6.3",
     "nodemon": "^2.0.2",
     "npm-watch": "^0.6.0",
     "react-scripts": "^3.3.0",
+    "serverless-http": "^2.3.0",
     "sinon": "^8.0.1"
   },
   "jest": {
