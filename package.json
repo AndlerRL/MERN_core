@@ -3,9 +3,6 @@
   "description": "A MERN stack core structure",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "^10.18.0"
-  },
   "watch": {
     "test": {
       "patterns": [
@@ -34,6 +31,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
+    "i18n": "^0.8.4",
     "i18next": "^19.0.2",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
