@@ -21,3 +21,5 @@ service.isHash = hash => {
   const regEx = /[0-9A-Fa-f]/;
   return regEx.test(hash);
 };
+
+module.exports = service;

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import './tempPolyfills';
 import React from 'react';
 import { configure } from 'enzyme';
@@ -23,14 +25,12 @@ global.sessionStorage = {
   clear: sinon.spy()  
 };
 
-global.t = key => key;
+global.t = key => (key);
 
-jest.mock('react-i18next', () => {
-  return {
-    translate: () => Component => Component
-  };
-});
+jest.mock('react-i18next', () => ({
+  translate: () => Component => Component
+}));
 
 jest.mock('react-router-dom', () => ({
-  NavLink: props => <a href={props.to}>{props.children}</a>
+  NavLink: ({ to, children }) => <a href={to}>{children}</a>
 }));

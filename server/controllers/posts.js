@@ -1,19 +1,16 @@
+require('regenerator-runtime');
 const logger = require('log4js').getLogger('reqviews');
 const Post = require('../model/post');
 const responseService = require('../services/response');
 const ctrl = {};
 
-ctrl.listPosts = async (req, res) => {
-  try {
-    const posts = await Post.find();
-
-    responseService.json(res, 200, posts);
-  } 
-  catch (err) {
-    logger.warn(err.message);
-    responseService.json(res, 500, err);
-  }
-};
+ctrl.listPosts = async (req, res) => await Post.find().then(posts => {
+  if (posts)
+    return responseService.json(res, 200, posts);
+  
+  throw new Error('Whoops, no posts yet!');
+})
+  .catch(err => logger.warn(err.message));
 
 ctrl.getPost = async (req, res) => {
   try {

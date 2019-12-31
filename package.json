@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "^10.18.0"
+    "node": "^12.12.0"
   },
   "watch": {
     "test": {
@@ -47,6 +47,7 @@
     "react-i18next": "^11.2.7",
     "react-router-dom": "^5.1.2",
     "rebass": "^4.0.7",
+    "regenerator-runtime": "^0.13.3",
     "styled-components": "^4.4.1"
   },
   "scripts": {
@@ -83,6 +84,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-async-to-generator": "^7.7.4",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "babel-eslint": "^10.0.3",
@@ -114,8 +116,8 @@
       "enzyme-to-json/serializer"
     ],
     "setupFiles": [
-      "<rootDir>/src/tests/config/setupTests.js",
-      "<rootDir>/server/tests/config/setupTests.js"
+      "<rootDir>/src/tests/config/jest.config.js",
+      "<rootDir>/server/tests/config/jest.config.js"
     ]
   }
 }

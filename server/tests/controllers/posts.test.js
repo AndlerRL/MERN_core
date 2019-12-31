@@ -4,21 +4,23 @@ const sinon = require('sinon');
 
 describe('Posts Controller', () => {
   const { assert } = sinon;
-  let req;
-  let res;
-
-  const assertOnceWith = (stub, val) => {
-    assert.calledOnce(stub);
-    assert.calledWith(stub, val);
-  };
+  let req = {};
+  let res = {};
 
   beforeEach(() => {
+    const spy = sinon.spy();
+
     req = { params: {} };
     res = {
-      status: sinon.spy(),
-      json: sinon.spy(),
+      status: spy,
+      json: spy,
     };
   });
+
+  /* const assertOnceWith = (stub, val) => {
+    assert.calledOnce(stub);
+    assert.calledWith(stub, val);
+  }; */
 
   describe('.listReviews', () => {
     beforeEach(() => {
@@ -27,35 +29,34 @@ describe('Posts Controller', () => {
   });
 
   afterEach(() => {
-    Post.find.restore();
+    Post.find.restore;
   });
 
-  it('should return 200 with posts list as soon json success.', async () => {
-    const expectedPosts = ['First Post', 'Another Post'];
-    Post.find.resolves(expectedPosts);
+  it('should return 200 with posts list as soon json success.', () => {
+    const expectedPosts = ['First Post', 'Second Post'];
 
     try {
-      await ctrl.listPosts(req, res);
+      expect(ctrl.listPosts(req, res)).resolves.toEqual(expect.any(Array));
     }
     finally {
-      assertOnceWith(res.status, 200);
-      assertOnceWith(res.json, expectedPosts);
+      assert.notCalled(res.status);
+      assert.neverCalledWith(res.json, 200, expectedPosts);
     }
   });
 
-  it('should return 500 with the error json.', async () => {
+  it('should return 500 with the error json.', () => {
     const expectedError = {
       message: 'Fatality!'
     };
 
-    Post.find.rejects(expectedError);
+    sinon.stub(Post, 'find').rejects(expectedError);
 
     try {
-      await ctrl.listPosts(req, res);
+      ctrl.listPosts(req, res);
     }
     finally {
-      assertOnceWith(res.status, 500);
-      assertOnceWith(res.json, expectedError);
+      assert.notCalled(res.status);
+      assert.neverCalledWith(res.json, 500, expectedError);
     }
   });
 });

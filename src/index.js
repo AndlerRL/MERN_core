@@ -14,7 +14,7 @@ const app = (
       <App />
     </I18nextProvider>
   </BrowserRouter>
-)
+);
 
 ReactDOM.render(app, document.getElementById('root'));
 

@@ -22,6 +22,9 @@ const PostContainer = () => {
     };
 
     fetchData();
+
+    console.log('HREF \n', window.location.href);
+    console.log('PORT \n', window.location.port);
   }, []);
 
   const changeHandler = postVal => {
@@ -52,7 +55,7 @@ const PostContainer = () => {
       justifyContent="flex-start"
       width={1}
     >
-      {posts.length > 0 && <Text as="h1">Posts on!</Text>}
+      {posts.length > 0 && <Text as="h1">Posts on! Total Posts: {posts.length}</Text>}
       <PostForm value={postVal} submitting={submitting} onChange={changeHandler} onSubmit={submitHandler} />
     </Flex>
   );
