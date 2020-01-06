@@ -128,7 +128,7 @@
       "prefer-double"
     ],
     "semi": [
-      "error",
+      "warn",
       "always"
     ],
     "newline-per-chained-call": [

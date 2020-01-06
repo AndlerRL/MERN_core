@@ -6,10 +6,13 @@ const bodyParser = require('body-parser');
 const log4js = require('log4js');
 const path = require('path');
 const serveStatic = require('serve-static');
-const serverless = require('serverless-http');
+// const serverless = require('serverless-http');
 const revUtils = require('./services/revUtils');
-const router = require('express').Router();
 const cwd = process.cwd();
+
+const PORT = 8080;
+
+const port = process.env.PORT || PORT;
 
 log4js.configure({
   appenders: { console: { type: 'console' } },
@@ -53,6 +56,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use((req, res) => {
     res.sendFile(path.join(cwd, 'build', 'index.html'));
   });
+// eslint-disable-next-line brace-style
 }
 
 app.use((req, res) => {
@@ -62,7 +66,10 @@ app.use((req, res) => {
   });
 });
 
-app.use('/.netlify/functions-build/server', router);
+app.listen(port, () => {
+  logger.info(`Current Work Directory => ${cwd}`);
+  logger.info(`Server listening on http://localhost:${port}`);
+});
 
 module.exports = app;
-module.exports.handler = serverless(app);
+

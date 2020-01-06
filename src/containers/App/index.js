@@ -1,14 +1,17 @@
 import React from 'react';
 import Post from 'containers/Post';
+import { Route, Switch } from 'react-router-dom';
 
 const App = () => (
   <div className="App">
     <header className="App-header">
-      <p>
+      <h1>
         Header section
-      </p>
+      </h1>
     </header>
-    <Post />
+    <Switch>
+      <Route exact path="/" component={Post} />
+    </Switch>
   </div>
 );
 
