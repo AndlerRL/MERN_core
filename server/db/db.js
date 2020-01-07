@@ -19,15 +19,21 @@ const opt = process.env.NODE_ENV === 'production' ? {
   // sslCA: [ca1],
   // checkServerIdentity: false,
   useNewUrlParser: true,
-  useUnifiedTopology: true // this should comment out while a ssl is active.
+  useUnifiedTopology: true, // this should comment out while a ssl is active.
+  socketTimeoutMS: 300000,
+  family: 4,
+  reconnectInterval: 1000
 } : {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  socketTimeoutMS: 300000,
+  family: 4,
+  reconnectInterval: 1000
 };
 
 const errHandler = err => {
   if (err) {
-    logger.error(`Mongoose connection error:\n${err}`);
+    logger.error(`Mongoose connection error: ${err}`);
     process.exit(1);
   }
 };
@@ -36,6 +42,6 @@ mongoose.Promise = Promise;
 
 mongoose.connection.on('connected', () => logger.info(`Mongoose connected to: ${uri}`));
 mongoose.connection.on('error', errHandler);
-mongoose.connection.on('disconnected', () => logger.info(`Mongoose disconnected from:\n ${uri}`));
+mongoose.connection.on('disconnected', () => logger.info(`Mongoose disconnected from: ${uri}`));
 
 mongoose.connect(uri, opt, errHandler);

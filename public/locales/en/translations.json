@@ -1,0 +1,9 @@
+{
+  "title": "MERN core",
+  "delete": "Delete",
+  "navigation": {
+    "p1": "Home",
+    "p2": "Posts",
+    "p3": "Create Post"
+  }
+}

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Box, Flex } from 'rebass';
 import PropTypes from 'prop-types';
 import { updateObject } from 'util/share/utility.js';
+import { Btn } from 'components/UI/btn';
 
 const Form = styled(Flex)`
   width: 91.666%;
@@ -81,9 +82,9 @@ const PostForm = ({ value, submitting, onSubmit, onChange }) => {
         <Input type="text" id="topics" name="topics" value={topics} onChange={changeHandler} placeholder="topics" />
       </Box>
 
-      <button type="submit">
+      <Btn.Secondary type="submit">
         {submitting ? 'submitting' : 'submit'}
-      </button>
+      </Btn.Secondary>
     </Form>
   );
 };

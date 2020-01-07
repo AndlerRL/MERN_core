@@ -22,9 +22,6 @@ const PostContainer = () => {
     };
 
     fetchData();
-
-    console.log('HREF \n', window.location.href);
-    console.log('PORT \n', window.location.port);
   }, []);
 
   const changeHandler = postVal => {
@@ -57,6 +54,43 @@ const PostContainer = () => {
     >
       {posts.length > 0 && <Text as="h1">Posts on! Total Posts: {posts.length}</Text>}
       <PostForm value={postVal} submitting={submitting} onChange={changeHandler} onSubmit={submitHandler} />
+
+      { 
+        posts.map(p => (
+          <Flex 
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="flex-start"
+            width={1 / 2}
+            key={p.id}
+            backgroundColor="lightblue"
+            my={4}
+          >
+            <Text as="h1" mb={3}>
+              {p.author || `${p.first} ${p.last}`}
+            </Text>
+            <Text as="p" my={3}>
+              {p.text}
+            </Text>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              {p.topics.map((t, i) => (
+                <Text as="span"
+                  bg="#232323"
+                  color="#fafafa"
+                  mx={2}
+                  p={2}
+                  key={i}
+                >
+                  {t}
+                </Text>
+              ))}
+            </Flex>
+          </Flex>
+        ))
+      }
     </Flex>
   );
 };

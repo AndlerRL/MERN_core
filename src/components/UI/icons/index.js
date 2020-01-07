@@ -1,0 +1,18 @@
+import {
+  HomeTwoTone,
+  PostAddTwoTone,
+  DescriptionTwoTone
+} from '@material-ui/icons';
+import styled, { themeGet } from 'util/styles';
+
+export const Icons = {
+  Home: styled(HomeTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `,
+  Posts: styled(DescriptionTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `,
+  NewPost: styled(PostAddTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `
+};

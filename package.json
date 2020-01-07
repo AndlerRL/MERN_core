@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.8.1",
+    "@material-ui/icons": "^4.5.1",
+    "@styled-system/theme-get": "^5.1.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -31,7 +33,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
-    "i18n": "^0.8.4",
     "i18next": "^19.0.2",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
@@ -46,7 +47,8 @@
     "react-router-dom": "^5.1.2",
     "rebass": "^4.0.7",
     "regenerator-runtime": "^0.13.3",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "styled-system": "^5.1.4"
   },
   "scripts": {
     "build": "react-scripts build",
@@ -68,7 +70,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
   "browserslist": {
     "production": [
       ">0.2%",

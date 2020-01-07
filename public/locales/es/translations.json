@@ -1,0 +1,14 @@
+{
+  "title": "MERN - Principios",
+  "delete": "Eliminar",
+  "navigation": {
+    "p1": "Inicio",
+    "p2": "Artículos",
+    "p3": "Crear Artículo"
+  },
+  "language": {
+    "title": "Idioma",
+    "es": "SPA (LA)",
+    "en": "ING (US)"
+  }
+}

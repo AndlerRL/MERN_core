@@ -38,7 +38,7 @@
       { "properties": "never" }
     ],
     "no-unused-vars": [
-      "error", 
+      "warn", 
       { "vars": "all", "args": "none", "ignoreRestSiblings": false }
     ],
     "indent": [
@@ -304,9 +304,6 @@
 
     //Import
     "import/no-mutable-exports": [
-      "error"
-    ],
-    "import/prefer-default-export": [
       "error"
     ],
     "import/first": [
