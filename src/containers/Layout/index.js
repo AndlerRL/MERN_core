@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-spacing */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled, { themeGet, ThemeProvider, theme } from 'util/styles';
 import GlobalStyles from 'util/styles/GlobalStyles';
+import { NavLink } from 'react-router-dom';
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -18,6 +20,8 @@ const Header = styled.header`
   margin-bottom: ${themeGet('space.4')}px;
   width: 100%;
   display: flex;
+  position: fixed;
+  z-index: 1600;
   align-items: center;
   justify-content: space-between;
   height: ${themeGet('space.5')}px;
@@ -55,8 +59,13 @@ const Layout = ({ children }) => {
   const [openMenu, setOpenMenu] = useState(null);
 
   useEffect(() => {
-    
-  }, []);
+    if (window.location.pathname !== '/') {
+      if (window.location.pathname === '/posts')
+        setNavValue(t('navigation.p2'));
+      else
+        setNavValue(t('navigation.p3'));
+    }
+  }, [navValue]);
 
   const navChangeHandler = (e, newVal) => {
     setNavValue(newVal);
@@ -127,17 +136,26 @@ const Layout = ({ children }) => {
             <BottomNavigationAction 
               label={t('navigation.p1')}
               value={t('navigation.p1')}
-              icon={<Icons.Home />}
+              icon={
+                <NavLink to="/" style={{ width: '100%', minHeight: '100%' }}>
+                  <Icons.Home />
+                </NavLink>}
             />
             <BottomNavigationAction 
               label={t('navigation.p2')}
               value={t('navigation.p2')}
-              icon={<Icons.Posts />}  
+              icon={
+                <NavLink to="/posts" style={{ width: '100%', minHeight: '100%' }}>
+                  <Icons.Posts />
+                </NavLink>}
             />
             <BottomNavigationAction 
               label={t('navigation.p3')}
               value={t('navigation.p3')}
-              icon={<Icons.NewPost />}  
+              icon={
+                <NavLink to="/admin/new-post" style={{ width: '100%', minHeight: '100%' }}>
+                  <Icons.NewPost />
+                </NavLink>}
             />
           </BottomNavigation>
         </Header>

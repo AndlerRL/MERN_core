@@ -11,6 +11,7 @@ const Form = styled(Flex)`
   max-width: 1000px;
   border-radius: 4px;
   background: linear-gradient(45deg, #222 16.666%, #777 83.333%);
+  margin: 0 auto;
 
   > div {
     margin-left: auto;
@@ -82,7 +83,7 @@ const PostForm = ({ value, submitting, onSubmit, onChange }) => {
         <Input type="text" id="topics" name="topics" value={topics} onChange={changeHandler} placeholder="topics" />
       </Box>
 
-      <Btn.Secondary type="submit">
+      <Btn.Secondary type="submit" variant="contained">
         {submitting ? 'submitting' : 'submit'}
       </Btn.Secondary>
     </Form>
