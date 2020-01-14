@@ -51,12 +51,14 @@ const Header = styled.header`
       }
     }
   }
+
 `;
 
 const Layout = ({ children }) => {
   const { t, i18n } = useTranslation();
   const [navValue, setNavValue] = useState(t('navigation.p1'));
   const [openMenu, setOpenMenu] = useState(null);
+  const [lang, setLang] = useState(navigator.language);
 
   useEffect(() => {
     if (window.location.pathname !== '/') {
@@ -65,7 +67,9 @@ const Layout = ({ children }) => {
       else
         setNavValue(t('navigation.p3'));
     }
-  }, [navValue]);
+
+    setLang(localStorage.getItem('lng'));
+  });
 
   const navChangeHandler = (e, newVal) => {
     setNavValue(newVal);
@@ -112,7 +116,7 @@ const Layout = ({ children }) => {
             aria-haspopup="true"
             onClick={openLanguage}
           >
-            {t('language.title')}
+            <Icons.Translate size="large" style={{ marginRight: '0.5rem' }} /> {lang}
           </Btn.Primary>
           <Menu
             id="language"
@@ -120,6 +124,19 @@ const Layout = ({ children }) => {
             keepMounted
             open={Boolean(openMenu)}
             onClose={openLanguage}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center'
+            }}
+            style={{
+              marginTop: 40,
+              backgroundColor: '#009688a3',
+              fontWeight: 'lighter'
+            }}
           >
             <MenuItem onClick={() => changeLanguage('es')}>
               {t('language.es')}

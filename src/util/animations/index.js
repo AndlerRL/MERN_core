@@ -16,11 +16,14 @@ export const zoomInAnimation = keyframes`
 export const fadeOutM = keyframes`
   from {
     position: relative;
+    top: initial;
+    left: initial;
     transform: translate3d(0, 0, 0);
   }
   to {
     position: absolute;
-    top: 0;
+    bottom: 0;
+    left: 0;
     transform: translate3d(100%, 0, 0);
   }
 `;
@@ -28,11 +31,14 @@ export const fadeOutM = keyframes`
 export const fadeOutE = keyframes`
   from {
     position: relative;
+    top: initial;
+    left: initial;
     transform: translate3d(0, 0, 0);
   }
   to {
     position: absolute;
-    top: 0;
+    bottom: 0;
+    left: 0;
     transform: translate3d(125%, 0, 0);
   }
 `;
@@ -40,11 +46,14 @@ export const fadeOutE = keyframes`
 export const fadeOutR = keyframes`
   from {
     position: relative;
+    top: initial;
+    left: initial;
     transform: translate3d(0, 0, 0);
   }
   to {
     position: absolute;
-    top: 0;
+    bottom: 0;
+    left: 0;
     transform: translate3d(-50%, 0, 0);
   }
 `;
@@ -52,11 +61,14 @@ export const fadeOutR = keyframes`
 export const fadeOutN = keyframes`
   from {
     position: relative;
+    top: initial;
+    left: initial;
     transform: translate3d(0, 0, 0);
   }
   to {
     position: absolute;
-    top: 0;
+    bottom: 0;
+    left: 0;
     transform: translate3d(-80%, 0, 0);
   }
 `;
@@ -64,10 +76,29 @@ export const fadeOutN = keyframes`
 export const transparent = keyframes`
   from {
     color: initial;
-    text-shadow: initial;
+    margin: initial;
+    text-shadow: 0px 0px initial,
+        1px 1px initial,
+        2px 2px initial,
+        -1px -1px initial,
+        -2px -2px initial,
+        -1px 1px initial,
+        -2px 2px initial,
+        1px -1px initial,
+        2px -2px initial,
+        1px 0px initial,
+        2px 0px initial,
+        0px 1px initial,
+        0px 2px initial,
+        -1px 0px initial,
+        -2px 0px initial,
+        0px -1px initial,
+        0px -2px initial;
   }
   to {
     text-shadow: none;
     color: transparent;
+    margin: auto 0;
+    height: 192px;
   }
 `;
