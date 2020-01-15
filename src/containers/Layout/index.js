@@ -54,6 +54,8 @@ const Header = styled.header`
 
 `;
 
+const i18nextLng = localStorage.getItem('i18nextLng');
+
 const Layout = ({ children }) => {
   const { t, i18n } = useTranslation();
   const [navValue, setNavValue] = useState(t('navigation.p1'));
@@ -116,7 +118,7 @@ const Layout = ({ children }) => {
             aria-haspopup="true"
             onClick={openLanguage}
           >
-            <Icons.Translate size="large" style={{ marginRight: '0.5rem' }} /> {lang}
+            <Icons.Translate size="large" style={{ marginRight: '0.5rem' }} /> {lang || i18nextLng}
           </Btn.Primary>
           <Menu
             id="language"

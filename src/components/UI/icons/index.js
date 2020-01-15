@@ -3,7 +3,8 @@ import {
   PostAddTwoTone,
   DescriptionTwoTone,
   KeyboardArrowDownTwoTone,
-  TranslateTwoTone
+  TranslateTwoTone,
+  LocalOfferTwoTone
 } from '@material-ui/icons';
 import styled, { themeGet } from 'util/styles';
 
@@ -22,5 +23,8 @@ export const Icons = {
   `,
   Translate: styled(TranslateTwoTone)`
     color: ${themeGet('colors.secondary.200')};
-  `
+  `,
+  Tag: styled(LocalOfferTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `,
 };

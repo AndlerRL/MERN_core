@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Btn } from 'components/UI/btn';
 import styled, { themeGet } from 'util/styles';
-import { Box } from 'rebass';
+import { Box, Flex } from 'rebass';
 import * as anim from 'util/animations';
 import { Icons } from 'components/UI/icons';
 
@@ -293,12 +293,26 @@ const HeadContainer = styled.div`
 `;
 
 const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   width: 100%;
   min-height: 100vh;
+  max-width: 1200px;
+`;
+
+const PostInfo = styled(Flex)`
+  min-height: 75vh;
+  background: url(/assets/images/read-blog.jpg) no-repeat;
+  background-size: cover;
+  background-position: -455px 0px;
+  padding: 62px;
+`;
+
+const NewPostInfo = styled(Flex)`
+  min-height: 75vh;
+  max-width: 1200px;
+  background: url(/assets/images/create-blog.jpg) no-repeat;
+  background-size: 44% cover;
+  background-position: right center;
+  padding: 62px;
 `;
 
 const Home = () => {
@@ -311,7 +325,12 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <Flex
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="flex-start"
+      width={1}
+    >
       <HeadContainer>
         <div>
           <div>
@@ -350,18 +369,41 @@ const Home = () => {
         </Btn.Primary>
       </HeadContainer>
       <MainContainer>
-        <Btn.Secondary>
-          <NavLink to="/posts">
-            Go to Posts
-          </NavLink>
-        </Btn.Secondary>
-        <Btn.Secondary>
-          <NavLink to="/admin/new-post">
-            Create New Post
-          </NavLink>
-        </Btn.Secondary>
+        <PostInfo
+          alignItems="center"
+          justifyContent="flex-end"
+          width={1}
+          ml="auto"
+        >
+          <Btn.Secondary>
+            <NavLink to="/posts">
+              Go to Posts
+            </NavLink>
+          </Btn.Secondary>
+        </PostInfo>
+        <Box as="hr" width={1} 
+          mx="auto"
+          className="ZoomIn DelayStack" 
+          style={{
+            border: 0,
+            height: '1px',
+            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))'
+          }}
+          my={6}
+        />
+        <NewPostInfo
+          alignItems="center"
+          justifyContent="flex-start"
+          width={1}
+        >
+          <Btn.Secondary>
+            <NavLink to="/admin/new-post">
+              Create New Post
+            </NavLink>
+          </Btn.Secondary>
+        </NewPostInfo>
       </MainContainer>
-    </div>
+    </Flex>
   );
 };
 

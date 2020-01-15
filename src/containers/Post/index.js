@@ -42,6 +42,8 @@ const PostContainer = () => {
     fetchData();
   }, []);
 
+  console.log(posts)
+
   return (
     <Flex
       flexDirection="column"
@@ -62,8 +64,8 @@ const PostContainer = () => {
             <Typography component="span" color="textSecondary" variant="body2" gutterBottom>
               written by {p.author || `${p.first} ${p.last}`}
             </Typography>
-            <Typography component="p" color="textSecondary" variant="body1">
-              {p.text}
+            <Typography component="p" color="textSecondary" variant="body1" style={{ whiteSpace: 'pre-line' }}>
+              {p.text || p.content}
             </Typography>
             <Flex
               alignItems="center"

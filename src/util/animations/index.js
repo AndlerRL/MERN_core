@@ -39,7 +39,7 @@ export const fadeOutE = keyframes`
     position: absolute;
     bottom: 0;
     left: 0;
-    transform: translate3d(125%, 0, 0);
+    transform: translate3d(108.333%, 0, 0);
   }
 `;
 
@@ -69,7 +69,7 @@ export const fadeOutN = keyframes`
     position: absolute;
     bottom: 0;
     left: 0;
-    transform: translate3d(-80%, 0, 0);
+    transform: translate3d(-83.333%, 0, 0);
   }
 `;
 
