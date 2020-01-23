@@ -4,18 +4,28 @@ import styled, { themeGet } from 'util/styles';
 export const Btn = {
   Primary: styled(Button)`
     font-weight: ${themeGet('fontWeights.light')} !important;
+    color: ${themeGet('colors.white')} !important;
+
+    a {
+      color: ${themeGet('colors.white')} !important;
+    }
     
     &[variant="contained"],
     &.MuiButton-contained {
-      background-color: ${themeGet('colors.primary.300')} !important;
+      background-color: ${themeGet('colors.primary.200')} !important;
     }
   `,
   Secondary: styled(Button)`
     font-weight: ${themeGet('fontWeights.light')} !important;
+    color: ${themeGet('colors.black')} !important;
+
+    a {
+      color: ${themeGet('colors.black')} !important;
+    }
     
     &[variant="contained"],
     &.MuiButton-contained {
-      background-color: ${themeGet('colors.secondary.300')} !important;
+      background-color: ${themeGet('colors.secondary.200')} !important;
     }
   `
 };

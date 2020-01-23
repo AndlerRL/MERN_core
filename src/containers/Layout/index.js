@@ -12,11 +12,11 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import { Text } from 'rebass';
+import { motion, useViewportScroll, useAnimation } from 'framer-motion';
 import { Btn } from 'components/UI/btn';
 import { Icons } from 'components/UI/icons';
 
-const Header = styled.header`
+const Header = styled(motion.header)`
   margin-bottom: ${themeGet('space.4')}px;
   width: 100%;
   display: flex;
@@ -25,23 +25,28 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   height: ${themeGet('space.5')}px;
-  background-color: ${themeGet('colors.primary.50')};
 
   h1,
   .Navigation {
     height: 100%;
+    background-color: inherit;
   }
 
-  h1 {
+  picture {
     display: flex;
     align-items: center;
     padding: 0 16px;
+    height: 100%;
+
+    > img {
+      height: 74.999%;
+    }
   }
 
   .Navigation {
     width: 300px;
     position: relative;
-    background-color: ${themeGet('colors.primary.50')};
+    background-color: inherit;
 
     .Mui-selected {
       color: ${themeGet('colors.secondary.500')};
@@ -51,18 +56,48 @@ const Header = styled.header`
       }
     }
   }
-
 `;
 
-const i18nextLng = localStorage.getItem('i18nextLng');
+const Footer = styled.div`
+  background-color: rgba(0, 77, 64, 1);
+  width: 100%;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color: #f5f5f5;
+  padding: 16px;
+  position: relative;
+
+  p {
+    font-size: 13px;
+    font-weight: 300;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+
+    a {
+      color: #e0f7fa;
+
+      &:hover,
+      &:visited {
+        color: #b2ebf2;
+      }
+    }
+  }
+`;
 
 const Layout = ({ children }) => {
   const { t, i18n } = useTranslation();
   const [navValue, setNavValue] = useState(t('navigation.p1'));
   const [openMenu, setOpenMenu] = useState(null);
   const [lang, setLang] = useState(navigator.language);
+  const [y, setY] = useState(window.scrollY);
+  const { scrollYProgress } = useViewportScroll();
+  const controls = useAnimation();
 
-  useEffect(() => {
+  useEffect((y = window.scrollY) => {
     if (window.location.pathname !== '/') {
       if (window.location.pathname === '/posts')
         setNavValue(t('navigation.p2'));
@@ -70,7 +105,23 @@ const Layout = ({ children }) => {
         setNavValue(t('navigation.p3'));
     }
 
-    setLang(localStorage.getItem('lng'));
+    setLang(localStorage.getItem('lng' || 'i18nextLng'));
+
+    window.addEventListener('scroll', () => {
+      if (y !== window.scrollY)
+        setY(window.scrollY);
+    });
+
+    return () => {
+      if (window.location.pathname !== '/') {
+        if (window.location.pathname === '/posts')
+          setNavValue(t('navigation.p2'));
+        else
+          setNavValue(t('navigation.p3'));
+      }
+
+      setLang(localStorage.getItem('lng' || 'i18nextLng'));
+    };
   });
 
   const navChangeHandler = (e, newVal) => {
@@ -100,25 +151,40 @@ const Layout = ({ children }) => {
     i18n.changeLanguage(language);
     setOpenMenu(null);
   };
+
+  controls.start(() => y > 24 && {
+    background: 'rgba(0, 77, 64, 1)',
+  });
+
+  controls.start(() => y < 24 && {
+    background: 'rgba(0, 77, 64, 0)',
+  });
   
   return (
     <NoSsr>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Header>
-          <Text 
-            as="h1"
-            width={1 / 3}
-            textAlign="center"
-          >
-            {t('title')}
-          </Text>
+        <Header
+          animate={controls}
+          initial={{
+            background: 'rgba(0, 77, 64, 0)'
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 800,
+            damping: 35,
+            duration: 1
+          }}
+        >
+          <picture>
+            <img src="/assets/images/mern-ico.png" alt="MERN_Logo" />
+          </picture>
           <Btn.Primary 
             aria-controls="language"
             aria-haspopup="true"
             onClick={openLanguage}
           >
-            <Icons.Translate size="large" style={{ marginRight: '0.5rem' }} /> {lang || i18nextLng}
+            <Icons.Translate size="large" style={{ marginRight: '0.5rem' }} /> {lang}
           </Btn.Primary>
           <Menu
             id="language"
@@ -137,7 +203,8 @@ const Layout = ({ children }) => {
             style={{
               marginTop: 40,
               backgroundColor: '#009688a3',
-              fontWeight: 'lighter'
+              fontWeight: 'lighter',
+              cursor: 'pointer'
             }}
           >
             <MenuItem onClick={() => changeLanguage('es')}>
@@ -178,7 +245,28 @@ const Layout = ({ children }) => {
             />
           </BottomNavigation>
         </Header>
+        <motion.div style={{
+          width: '100%',
+          height: '4px',
+          position: 'fixed',
+          top: 64,
+          borderRadius: '1%',
+          backgroundColor: '#222',
+          scaleX: scrollYProgress,
+          zIndex: 1600
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 800,
+          damping: 35
+        }}
+        />
         {children}
+        <Footer>
+          <p>
+            Website developed by <a href="https://andler.netlify.com" target="__blank" >Andler Develops</a>. 2020 ® All rights reserved.
+          </p>
+        </Footer>
       </ThemeProvider>
     </NoSsr>
   );

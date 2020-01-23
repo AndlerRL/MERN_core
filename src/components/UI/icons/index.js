@@ -4,7 +4,8 @@ import {
   DescriptionTwoTone,
   KeyboardArrowDownTwoTone,
   TranslateTwoTone,
-  LocalOfferTwoTone
+  LocalOfferTwoTone,
+  AddRounded
 } from '@material-ui/icons';
 import styled, { themeGet } from 'util/styles';
 
@@ -25,6 +26,9 @@ export const Icons = {
     color: ${themeGet('colors.secondary.200')};
   `,
   Tag: styled(LocalOfferTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `,
+  Add: styled(AddRounded)`
     color: ${themeGet('colors.secondary.200')};
   `,
 };

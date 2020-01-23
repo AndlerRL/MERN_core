@@ -29,13 +29,18 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
-  .MuiPopover-root > div.MuiPaper-root {
+  .MuiPopover-root {
+    margin-top: 0 !important;
+    top: 64px !important;
+
+    > div.MuiPaper-root {
       background-color: ${themeGet('colors.primary.50')} !important;
       
       &:focus {
         background-color: ${themeGet('colors.primary.50')} !important;
       }
     }
+  }
 `;
 
 export default GlobalStyles;

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import styled from 'styled-components';
@@ -42,30 +43,9 @@ const PostForm = ({ form, submitting, onSubmit, onChange, onDelete }) => {
     });
   }
 
-  const postForm1 = formEleArray.map(ele => {
-    if (ele.config.label === 'First' || ele.config.label === 'Last') {
-      return (
-        <Box width={5 / 12}>
-          <Input
-            key={ele.id}
-            invalid={!ele.config.validation.valid}
-            shouldValidate={ele.config.validation}
-            touched={ele.config.validation.touched}
-            elementType={ele.config.elementType}
-            elementConfig={ele.config.elementConfig}
-            value={ele.config.value}
-            label={ele.config.label}
-            htmlFor={ele.config.label}
-            changed={e => onChange(e, ele.id)}
-          />
-        </Box>
-      );
-    }
-  });
-
-  const postForm2 = formEleArray.map(ele => {
-    if (ele.config.label === 'Post Content') {
-      return (
+  const postForm1 = formEleArray.map(ele => (
+    ele.config.label === 'First' || ele.config.label === 'Last' ?
+      <Box width={5 / 12}>
         <Input
           key={ele.id}
           invalid={!ele.config.validation.valid}
@@ -78,29 +58,44 @@ const PostForm = ({ form, submitting, onSubmit, onChange, onDelete }) => {
           htmlFor={ele.config.label}
           changed={e => onChange(e, ele.id)}
         />
-      );
-    }
-  });
+      </Box>
+      : null
+  ));
 
-  const postForm3 = formEleArray.map(ele => {
-    if (ele.config.label === 'Topics') {
-      return (
-        <Input
-          key={ele.id}
-          invalid={!ele.config.validation.valid}
-          shouldValidate={ele.config.validation}
-          touched={ele.config.validation.touched}
-          elementType={ele.config.elementType}
-          elementConfig={ele.config.elementConfig}
-          value={ele.config.value}
-          label={ele.config.label}
-          htmlFor={ele.config.label}
-          changed={e => onChange(e, ele.id)}
-          helperText="Testing helper"
-        />
-      );
-    }
-  });
+  const postForm2 = formEleArray.map(ele => (
+    ele.config.label === 'Post Content' ?
+      <Input
+        key={ele.id}
+        invalid={!ele.config.validation.valid}
+        shouldValidate={ele.config.validation}
+        touched={ele.config.validation.touched}
+        elementType={ele.config.elementType}
+        elementConfig={ele.config.elementConfig}
+        value={ele.config.value}
+        label={ele.config.label}
+        htmlFor={ele.config.label}
+        changed={e => onChange(e, ele.id)}
+      />
+      : null
+  ));
+
+  const postForm3 = formEleArray.map(ele => (
+    ele.config.label === 'Topics' ?
+      <Input
+        key={ele.id}
+        invalid={!ele.config.validation.valid}
+        shouldValidate={ele.config.validation}
+        touched={ele.config.validation.touched}
+        elementType={ele.config.elementType}
+        elementConfig={ele.config.elementConfig}
+        value={ele.config.value}
+        label={ele.config.label}
+        htmlFor={ele.config.label}
+        changed={e => onChange(e, ele.id)}
+        helperText="Testing helper"
+      />
+      : null
+  ));
   
   return (
     <Form as="form"

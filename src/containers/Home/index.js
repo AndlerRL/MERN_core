@@ -1,221 +1,135 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Btn } from 'components/UI/btn';
 import styled, { themeGet } from 'util/styles';
 import { Box, Flex } from 'rebass';
 import * as anim from 'util/animations';
 import { Icons } from 'components/UI/icons';
+import { motion, useCycle, useAnimation } from 'framer-motion';
+import Mern from 'components/UI/mern';
+import Tooltip from 'components/UI/tooltip';
 
-const MERN = {
-  M: styled.div`
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+const move = i => {
+  const { innerWidth } = window;
 
-    p:not(span) {
-      animation: 1s ${anim.transparent} cubic-bezier(0.6, 0.04, 0.98, 0.335) forwards 2000ms;
-      color: #3F3E42;
-      text-shadow: 0px 0px #E8E7D5,
-        1px 1px #E8E7D5,
-        2px 2px #E8E7D5,
-        -1px -1px #E8E7D5,
-        -2px -2px #E8E7D5,
-        -1px 1px #E8E7D5,
-        -2px 2px #E8E7D5,
-        1px -1px #E8E7D5,
-        2px -2px #E8E7D5,
-        1px 0px #E8E7D5,
-        2px 0px #E8E7D5,
-        0px 1px #E8E7D5,
-        0px 2px #E8E7D5,
-        -1px 0px #E8E7D5,
-        -2px 0px #E8E7D5,
-        0px -1px #E8E7D5,
-        0px -2px #E8E7D5;
-    }
+  if (innerWidth >= 920) {
+    if (i === 0)
+      return 800 - 550;
+  
+    if (i === 1)
+      return 800 - 660;
+  
+    if (i === 2)
+      return 800 - 815;
+  
+    if (i === 3)
+      return 800 - 955;
+  }
 
-    span {
-      z-index: 1;
-      animation: 1.5s ${anim.fadeOutM} cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 3750ms;
-      color: #3FA037;
-      text-shadow: 0px 0px #4DB33D,
-        1px 1px #4DB33D,
-        2px 2px #4DB33D,
-        -1px -1px #4DB33D,
-        -2px -2px #4DB33D,
-        -1px 1px #4DB33D,
-        -2px 2px #4DB33D,
-        1px -1px #4DB33D,
-        2px -2px #4DB33D,
-        1px 0px #4DB33D,
-        2px 0px #4DB33D,
-        0px 1px #4DB33D,
-        0px 2px #4DB33D,
-        -1px 0px #4DB33D,
-        -2px 0px #4DB33D,
-        0px -1px #4DB33D,
-        0px -2px #4DB33D;
-    }
-  `,
-  E: styled.div`
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+  if (innerWidth <= 919 && innerWidth >= 830) {
+    if (i === 0)
+      return 800 - 570;
+  
+    if (i === 1)
+      return 800 - 665;
+  
+    if (i === 2)
+      return 800 - 810;
+  
+    if (i === 3)
+      return 800 - 935;
+  }
 
-    p:not(span) {
-      animation: 1s ${anim.transparent} cubic-bezier(0.6, 0.04, 0.98, 0.335) forwards 2000ms;
-      color: #68A063;
-      text-shadow: 0px 0px #3C873A,
-        1px 1px #3C873A,
-        2px 2px #3C873A,
-        -1px -1px #3C873A,
-        -2px -2px #3C873A,
-        -1px 1px #3C873A,
-        -2px 2px #3C873A,
-        1px -1px #3C873A,
-        2px -2px #3C873A,
-        1px 0px #3C873A,
-        2px 0px #3C873A,
-        0px 1px #3C873A,
-        0px 2px #3C873A,
-        -1px 0px #3C873A,
-        -2px 0px #3C873A,
-        0px -1px #3C873A,
-        0px -2px #3C873A;
-    }
+  if (innerWidth <= 829 && innerWidth >= 740) {
+    if (i === 0)
+      return 800 - 600;
+  
+    if (i === 1)
+      return 800 - 675;
+  
+    if (i === 2)
+      return 0;
+  
+    if (i === 3)
+      return 800 - 905;
+  }
 
-    span {
-      z-index: 1;
-      animation: 1.5s ${anim.fadeOutE} cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 3750ms;
-      color: #303030;
-      text-shadow: 0px 0px #3C873A,
-        1px 1px #3C873A,
-        2px 2px #3C873A,
-        -1px -1px #3C873A,
-        -2px -2px #3C873A,
-        -1px 1px #3C873A,
-        -2px 2px #3C873A,
-        1px -1px #3C873A,
-        2px -2px #3C873A,
-        1px 0px #3C873A,
-        2px 0px #3C873A,
-        0px 1px #3C873A,
-        0px 2px #3C873A,
-        -1px 0px #3C873A,
-        -2px 0px #3C873A,
-        0px -1px #3C873A,
-        0px -2px #3C873A;
-    }
-  `,
-  R: styled.div`
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-
-    p:not(span) {
-      animation: 1s ${anim.transparent} cubic-bezier(0.6, 0.04, 0.98, 0.335) forwards 2000ms;
-      color: #424242;
-      text-shadow: 0px 0px #61DBFB,
-        1px 1px #61DBFB,
-        2px 2px #61DBFB,
-        -1px -1px #61DBFB,
-        -2px -2px #61DBFB,
-        -1px 1px #61DBFB,
-        -2px 2px #61DBFB,
-        1px -1px #61DBFB,
-        2px -2px #61DBFB,
-        1px 0px #61DBFB,
-        2px 0px #61DBFB,
-        0px 1px #61DBFB,
-        0px 2px #61DBFB,
-        -1px 0px #61DBFB,
-        -2px 0px #61DBFB,
-        0px -1px #61DBFB,
-        0px -2px #61DBFB;
-    }
-
-    span {
-      z-index: 1;
-      animation: 1.5s ${anim.fadeOutR} cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 3750ms;
-      color: #61DBFB;
-      text-shadow: 0px 0px #424242,
-        1px 1px #424242,
-        2px 2px #424242,
-        -1px -1px #424242,
-        -2px -2px #424242,
-        -1px 1px #424242,
-        -2px 2px #424242,
-        1px -1px #424242,
-        2px -2px #424242,
-        1px 0px #424242,
-        2px 0px #424242,
-        0px 1px #424242,
-        0px 2px #424242,
-        -1px 0px #424242,
-        -2px 0px #424242,
-        0px -1px #424242,
-        0px -2px #424242;
-    }
-  `,
-  N: styled.div`
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-
-    p:not(span) {
-      animation: 1s ${anim.transparent} cubic-bezier(0.6, 0.04, 0.98, 0.335) forwards 2000ms;
-      color: #3C873A;
-      text-shadow: 0px 0px #68A063,
-        1px 1px #68A063,
-        2px 2px #68A063,
-        -1px -1px #68A063,
-        -2px -2px #68A063,
-        -1px 1px #68A063,
-        -2px 2px #68A063,
-        1px -1px #68A063,
-        2px -2px #68A063,
-        1px 0px #68A063,
-        2px 0px #68A063,
-        0px 1px #68A063,
-        0px 2px #68A063,
-        -1px 0px #68A063,
-        -2px 0px #68A063,
-        0px -1px #68A063,
-        0px -2px #68A063;
-    }
-
-    span {
-      z-index: 1;
-      animation: 1.5s ${anim.fadeOutN} cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 3750ms;
-      color: #303030;
-      text-shadow: 0px 0px #68A063,
-        1px 1px #68A063,
-        2px 2px #68A063,
-        -1px -1px #68A063,
-        -2px -2px #68A063,
-        -1px 1px #68A063,
-        -2px 2px #68A063,
-        1px -1px #68A063,
-        2px -2px #68A063,
-        1px 0px #68A063,
-        2px 0px #68A063,
-        0px 1px #68A063,
-        0px 2px #68A063,
-        -1px 0px #68A063,
-        -2px 0px #68A063,
-        0px -1px #68A063,
-        0px -2px #68A063;
-    }
-  `
+  if (innerWidth <= 749 && innerWidth >= 500) {
+    if (i === 0)
+      return innerWidth * 0.5;
+  
+    if (i === 1)
+      return innerWidth * 0.25;
+  
+    if (i === 2)
+      return innerWidth * 0.16;
+  
+    if (i === 3)
+      return innerWidth * 0.8;
+  }
 };
+
+const capitalVariants = {
+  initial: {
+    x: 0
+  },
+  move: i => ({
+    x: move(i)
+  })
+};
+
+const variants = {
+  visible: i => ({
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delay: i * 0.5
+    },
+  }),
+  hidden: { 
+    opacity: 0,
+    scale: 0.1
+  },
+};
+
+const MERNVariants = {
+  hidden: {
+    x: 1000,
+    opacity: 0
+  },
+  visible: i => ({
+    x: 0,
+    opacity: 1,
+    transition: {
+      ease: 'easeOut',
+      delay: i * 0.3
+    }
+  })
+};
+
+const itemVariants = {
+  hide: {
+    opacity: 0,
+    textShadow: 'transparent',
+  },
+  show: {
+    opacity: 1,
+  }
+};
+
+const ContentContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+
+  & > .PostInfo {
+    align-items: center;
+  }
+`;
 
 const Stack = styled.div`
   font-style: oblique;
@@ -254,31 +168,6 @@ const HeadContainer = styled.div`
       line-height: 2;
       letter-spacing: 5px;
       text-align: center;
-      
-      > div{
-        span {
-          font-size: 96px;
-        }
-      }
-    }
-  }
-
-  .FadeInRight {
-    animation: 0.5s ${anim.slideAnimation} forwards;
-
-    &.DelayE {
-      opacity: 0;
-      animation-delay: 500ms;
-    }
-
-    &.DelayR {
-      opacity: 0;
-      animation-delay: 1000ms;
-    }
-
-    &.DelayN {
-      opacity: 0;
-      animation-delay: 1500ms;
     }
   }
 
@@ -296,26 +185,151 @@ const MainContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   max-width: 1200px;
+
+  .PostInfo {
+    background: url(/assets/images/read-blog.jpg) no-repeat;
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      width: 100%;
+      direction: rtl;
+      padding: 32px;
+      background: radial-gradient(#fff8 10%,#fff1 90%);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      @media screen and (min-width: 600px) {
+        flex-direction: row;
+
+        li {
+          text-align: right;
+        }
+
+        > div {
+          justify-content: flex-end;
+        }
+      }
+
+      > ul,
+      > div {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          font-size: 16px;
+          font-weight: 400;
+          margin: 0.75rem auto;
+          list-style: none;
+          text-align: center;
+        }
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media screen and (min-width: 600px) {
+          justify-content: flex-end;
+        }
+
+        > button {
+          padding: 16px;
+        }
+      }
+        
+    }
+  }
+
+  .NewPostInfo {
+    background: url(/assets/images/create-blog.jpg) no-repeat;
+    background-size: 44% cover;
+    background-position: right center;
+    padding: 62px;
+  }
+
+  .FramerMotion {
+    background-color: red;
+    box-shadow: 5px 5px 20px 5px #2225;
+    width: 83.333%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 32px;
+
+    li {
+      font-size: 13px;
+      font-weight: 300;
+      margin: 0.5rem auto;
+      list-style: none;
+    }
+  }
 `;
 
-const PostInfo = styled(Flex)`
-  min-height: 75vh;
-  background: url(/assets/images/read-blog.jpg) no-repeat;
-  background-size: cover;
-  background-position: -455px 0px;
-  padding: 62px;
-`;
+const Home = (props, ref) => {
+  const [list, setList] = useState(false);
+  const [post, setPost] = useState(false);
+  const [newPost, setNewPost] = useState(false);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [anim, cycle] = useCycle({
+    borderRadius: '1000%',
+    opacity: 0.5,
+    scale: 0.5,
+    rotate: 90,
+  },{
+    borderRadius: '25%',
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+  });
+  const [newPostInfoAnim, newPostInfoCycle] = useCycle({
+    borderRadius: '100%',
+    scale: 0.7,
+    x: '-50vw',
+    cursor: 'pointer',
+    alignItems: 'center',
+  },{
+    borderRadius: 0,
+    scale: 1,
+    x: 0,
+    alignItems: innerWidth < 770 ? 'center' : 'flex-end',
+  });
+  const controlPostAnim = useAnimation();
 
-const NewPostInfo = styled(Flex)`
-  min-height: 75vh;
-  max-width: 1200px;
-  background: url(/assets/images/create-blog.jpg) no-repeat;
-  background-size: 44% cover;
-  background-position: right center;
-  padding: 62px;
-`;
+  useEffect(() => {
+    window.addEventListener('resize', resize);
 
-const Home = () => {
+    return () => {
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  const resize = () => {
+    if (window.innerWidth !== innerWidth)
+      setInnerWidth(window.innerWidth);
+  };
+
   const moreOptHandler = () => {
     window.scroll({
       left: 0,
@@ -323,6 +337,44 @@ const Home = () => {
       behavior: 'smooth'
     });
   };
+
+  const activeAnim = component => {
+    if (component === 'list')
+      setList(!list);
+
+    if (component === 'post') {
+      setPost(true);
+      
+      controlPostAnim.start({
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        alignItems: innerWidth < 770 ? 'center' : 'flex-end',
+        width: '100%',
+        height: '100%',
+        cursor: 'initial'
+      });
+    }
+
+    if (component === 'newPost')
+      setNewPost(!newPost);
+  };
+
+
+  const items = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu quam in sapien accumsan pulvinar at ac lacus.',
+    'Etiam eget luctus elit. Vestibulum non sodales ante, ut efficitur erat.',
+    'Aliquam faucibus, tellus nec vehicula feugiat, magna felis malesuada quam, laoreet fringilla justo felis non elit.',
+    'Sed non gravida dui. Mauris ligula velit, porta ac finibus sed, facilisis quis orci.',
+    'Morbi a dui non elit dapibus aliquet. Nunc efficitur sagittis venenatis.',
+    'Donec feugiat dignissim mauris, a tincidunt enim. Maecenas auctor massa massa, nec rutrum orci sagittis et.'
+  ];
+
+  const MERN = [
+    'Mongo',
+    'Express',
+    'React',
+    'Node'
+  ];
 
   return (
     <Flex
@@ -334,18 +386,41 @@ const Home = () => {
       <HeadContainer>
         <div>
           <div>
-            <MERN.M className="FadeInRight">
-              <p><span>M</span>ongo</p>
-            </MERN.M>
-            <MERN.E className="FadeInRight DelayE">
-              <p><span>E</span>xpress</p>
-            </MERN.E>
-            <MERN.R className="FadeInRight DelayR">
-              <p><span>R</span>eact</p>
-            </MERN.R>
-            <MERN.N className="FadeInRight DelayN">
-              <p><span>N</span>ode</p>
-            </MERN.N>
+            <Mern>
+              {MERN.map((i, k) => (
+                <motion.div
+                  key={k}
+                  custom={k}
+                  animate="visible"
+                  initial="hidden"
+                  variants={MERNVariants}
+                >
+                  <motion.span
+                    custom={k}
+                    animate="move"
+                    initial="initial"
+                    variants={capitalVariants}
+                    transition={{
+                      ease: 'backIn',
+                      duration: 1,
+                      delay: 1.75
+                    }}
+                  >
+                    {i.substring(0, 1)}
+                  </motion.span>
+                  <motion.span
+                    animate="hide"
+                    initial="show"
+                    variants={itemVariants}
+                    transition={{
+                      delay: 1.5
+                    }}
+                  >
+                    {i.substring(1, i.length)}
+                  </motion.span>
+                </motion.div>
+              ))}
+            </Mern>
           </div>
           <Box as="hr" width={10 / 12} 
             mx="auto"
@@ -369,18 +444,38 @@ const Home = () => {
         </Btn.Primary>
       </HeadContainer>
       <MainContainer>
-        <PostInfo
-          alignItems="center"
-          justifyContent="flex-end"
-          width={1}
-          ml="auto"
-        >
-          <Btn.Secondary>
-            <NavLink to="/posts">
-              Go to Posts
-            </NavLink>
-          </Btn.Secondary>
-        </PostInfo>
+        <ContentContainer>
+          <Tooltip
+            text="Click Me!"
+            visible={list}
+            initial={null}
+            animate={anim}
+            onTap={() => cycle()}
+            whileHover={{ opacity: !list ? anim.opacity + 0.2 : 1 }}
+            clicked={() => activeAnim('list')}
+            className="FramerMotion"
+          >
+            {list ? 
+              items.map((item, i) => (
+                <motion.li
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  animate="visible"
+                  variants={variants}
+                >
+                  {item}
+                </motion.li>
+              )) : 
+              <motion.span
+                animate={{
+                  opacity: list ? 0 : 1,
+                }}
+              >
+                <Icons.Add fontSize="large" style={{ transform: 'scale(2)', color: '#222' }} />
+              </motion.span>}
+          </Tooltip>
+        </ContentContainer>
         <Box as="hr" width={1} 
           mx="auto"
           className="ZoomIn DelayStack" 
@@ -391,17 +486,134 @@ const Home = () => {
           }}
           my={6}
         />
-        <NewPostInfo
-          alignItems="center"
-          justifyContent="flex-start"
-          width={1}
-        >
-          <Btn.Secondary>
-            <NavLink to="/admin/new-post">
-              Create New Post
-            </NavLink>
-          </Btn.Secondary>
-        </NewPostInfo>
+        <ContentContainer>
+          <Tooltip
+            text="Click for More"
+            visible={post}
+            anchorPos="LEFT_CENTER"
+            initial={{
+              borderTopLeftRadius: '100px',
+              borderBottomLeftRadius: '100px',
+              cursor: 'pointer',
+              alignItems: 'center',
+              width: '50%',
+              height: '50%'
+            }}
+            animate={controlPostAnim}
+            whileTap={{ opacity: !post && 0.8 }}
+            transition={{
+              ease: 'backIn',
+              duration: .5
+            }}
+            className="PostInfo"
+            clicked={() => activeAnim('post')}
+          >
+            {post ?
+              <div>
+                <ul>
+                  {items.map((item, i) => (
+                    <motion.li
+                      key={i}
+                      custom={i}
+                      initial="hidden"
+                      animate="visible"
+                      variants={variants}
+                    >
+                      {item}
+                    </motion.li>
+                  ))}
+                </ul>
+                <motion.div
+                  custom={8}
+                  initial="hidden"
+                  animate="visible"
+                  variants={variants}
+                >
+                  <Btn.Secondary variant="contained" size="large">
+                    <NavLink to="/posts">
+                      Go To Posts
+                    </NavLink>
+                  </Btn.Secondary>
+                </motion.div>
+              </div> :
+              <motion.span
+                animate={{
+                  opacity: post ? 0 : 1,
+                }}
+              >
+                <Icons.Add fontSize="large" style={{ transform: 'scale(2)', color: '#222' }} />
+              </motion.span>}
+          </Tooltip>
+        </ContentContainer>
+        <Box as="hr" width={1} 
+          mx="auto"
+          className="ZoomIn DelayStack" 
+          style={{
+            border: 0,
+            height: '1px',
+            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0))'
+          }}
+          my={6}
+        />
+        <ContentContainer>
+          <Tooltip
+            text="Click for More"
+            visible={newPost}
+            anchorPos="RIGHT_CENTER"
+            initial={{
+              borderTopRightRadius: '100px',
+              borderBottomRightRadius: '100px',
+              cursor: 'pointer',
+              alignItems: 'center',
+            }}
+            animate={newPostInfoAnim}
+            onTap={() => newPostInfoCycle()}
+            whileTap={{ opacity: !newPost && 0.8 }}
+            transition={{
+              ease: 'backIn',
+              duration: .5
+            }}
+            className="NewPostInfo"
+            clicked={() => activeAnim('newPost')}
+          >
+            {newPost ?
+              <div>
+                {items.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    custom={i}
+                    initial="hidden"
+                    animate="visible"
+                    variants={variants}
+                  >
+                    {item}
+                  </motion.li>
+                ))}
+                <motion.div
+                  custom={8}
+                  initial="hidden"
+                  animate="visible"
+                  variants={variants}
+                >
+                  <Btn.Secondary>
+                    <NavLink to="/admin/new-post">
+                      Create New Post
+                    </NavLink>
+                  </Btn.Secondary>
+                </motion.div>
+              </div> :
+              <motion.span
+                animate={{
+                  opacity: newPost ? 0 : 1,
+                }}
+                style={{
+                  marginRight: '-33.33%'
+                }}
+              >
+                <Icons.Add fontSize="large" style={{ transform: 'scale(2)', color: '#222' }} />
+              </motion.span>}
+          </Tooltip>
+        </ContentContainer>
       </MainContainer>
     </Flex>
   );
