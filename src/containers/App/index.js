@@ -5,19 +5,16 @@ import NewPost from 'containers/NewPost';
 import NotFound from 'components/404';
 import { Route, Switch } from 'react-router-dom';
 import Layout from 'containers/Layout';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { SkeletonTheme } from 'react-loading-skeleton';
+
+import Fallback from 'components/UI/skeletons/fallback';
 
 const App = () => (
-  <Suspense fallback={() => (
-    <SkeletonTheme color="#222" highlightColor="#333">
-      <Layout>
-        <div style={{ height: 64, backgroundColor: 'rgba(0, 77, 64, 1)' }} />
-        <Skeleton width="100%" height="100vh" duration={1} />
-      </Layout>
-    </SkeletonTheme>
-  )}
-  >
-    <SkeletonTheme color="#222" highlightColor="#333">
+  <SkeletonTheme color="#111" highlightColor="#222">
+    <Suspense fallback={(
+      <Fallback />
+    )}
+    >
       <Layout>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -26,8 +23,8 @@ const App = () => (
           <Route component={NotFound} />
         </Switch>
       </Layout>
-    </SkeletonTheme>
-  </Suspense>
+    </Suspense>
+  </SkeletonTheme>
 );
 
 export default App;
