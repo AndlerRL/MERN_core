@@ -10,14 +10,12 @@ const GlobalStyles = createGlobalStyle`
 
   html,
   body {
-    min-height: 100vh;
+    min-height: 100vh !important;
     min-width: 320px;
     padding: 0;
     margin: 0;
     background-color: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
 
   code {

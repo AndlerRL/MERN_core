@@ -256,9 +256,7 @@ const Layout = ({ children }) => {
           zIndex: 1600
         }}
         transition={{
-          type: 'spring',
-          stiffness: 800,
-          damping: 35
+          ease: 'linear',
         }}
         />
         {children}

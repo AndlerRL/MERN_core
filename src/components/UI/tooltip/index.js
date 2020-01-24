@@ -1,3 +1,5 @@
+/* eslint-disable brace-style */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';
 import styled from 'util/styles';
@@ -104,67 +106,67 @@ const Tooltip = forwardRef(({ children, className, style, arrowStyle, layerSide 
           position: 'absolute',
           transformOrigin: 'center',
           transform: getArrowTranslate(layerSide)
-        }} />
+        }}  
+      />
     </TooltipContainer>
   );
 });
 
-const PopoverTooltip = forwardRef((props, ref) => {
-  return (
-    <ToggleLayer
-      ResizeObserver={ResizeObserver}
-      renderLayer={({ isOpen, layerProps, arrowStyle, layerSide }) => (
-        <AnimatePresence>
-          {isOpen && !props.visible ? (
-            <Tooltip
-              ref={layerProps.ref}
-              style={{
-                ...layerProps.style,
-                marginTop: props.mTop && props.mTop,
-                marginBottom: props.mBot && props.mBot,
-                marginLeft: props.mLef && props.mLef,
-                marginRight: props.mRig && props.mRig,
-              }}
-              arrowStyle={arrowStyle}
-              layerSide={layerSide}
-            >
-              <TooltipText>
-                {props.text}
-              </TooltipText>
-            </Tooltip>
-          ): null}
-        </AnimatePresence>
-      )}
-      closeOnOutsideClick
-      closeOnDisappear="partial"
-      placement={{
-        anchor: props.anchorPos,
-        autoAdjust: true,
-        snapToAnchor: false,
-        triggerOffset: 12,
-        scrollOffset: 16,
-        preferX: 'RIGHT'
-      }}
-    >
-      {({ isOpen, triggerRef, toggle }) => (
-        <motion.div
-          ref={composeRef(triggerRef, ref)}
-          onMouseEnter={toggle}
-          style={props.style}
-          initial={props.initial}
-          animate={props.animate}
-          onTap={props.onTap}
-          whileTap={props.whileTap && props.whileTap}
-          whileHover={props.whileHover && props.whileHover}
-          transition={props.transition && props.transition}
-          className={props.className}
-          onClick={props.clicked}
-        >
-          {props.children}
-        </motion.div>
-      )}
-    </ToggleLayer>
-  )
-});
+const PopoverTooltip = forwardRef((props, ref) => (
+  <ToggleLayer
+    ResizeObserver={ResizeObserver}
+    renderLayer={({ isOpen, layerProps, arrowStyle, layerSide }) => (
+      <AnimatePresence>
+        {isOpen && !props.visible ? (
+          <Tooltip
+            ref={layerProps.ref}
+            style={{
+              ...layerProps.style,
+              marginTop: props.mTop && props.mTop,
+              marginBottom: props.mBot && props.mBot,
+              marginLeft: props.mLef && props.mLef,
+              marginRight: props.mRig && props.mRig,
+            }}
+            arrowStyle={arrowStyle}
+            layerSide={layerSide}
+          >
+            <TooltipText>
+              {props.text}
+            </TooltipText>
+          </Tooltip>
+        ) : null}
+      </AnimatePresence>
+    )}
+    closeOnOutsideClick
+    closeOnDisappear="partial"
+    placement={{
+      anchor: props.anchorPos,
+      autoAdjust: true,
+      snapToAnchor: false,
+      triggerOffset: 12,
+      scrollOffset: 16,
+      preferX: 'RIGHT'
+    }}
+  >
+    {({ isOpen, triggerRef, toggle }) => (
+      <motion.div
+        ref={composeRef(triggerRef, ref)}
+        onMouseEnter={toggle}
+        style={props.style}
+        initial={props.initial}
+        animate={props.animate}
+        onTap={props.onTap}
+        whileTap={props.whileTap && props.whileTap}
+        whileHover={props.whileHover && props.whileHover}
+        transition={props.transition && props.transition}
+        className={props.className}
+        onClick={props.clicked}
+      >
+        {props.children}
+      </motion.div>
+    )}
+  </ToggleLayer>
+)
+);
 
 export default PopoverTooltip;
