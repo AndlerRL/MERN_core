@@ -203,10 +203,6 @@
     "no-nested-ternary": [
       "warn"
     ],
-    "brace-style": [
-      "error",
-      "stroustrup"
-    ],
     "curly": [
       "error",
       "multi-or-nest",

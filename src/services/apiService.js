@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const service = {};
 
-service.getPosts = () => axios.get('/api/posts');
+service.getPosts = (page, limit) => axios.get(`/api/posts${page ? `?offset=${page}` : ''}${limit ? `&limit=${limit}` : ''}`);
 
 service.createPost = post => axios.post('/api/posts', post);
 

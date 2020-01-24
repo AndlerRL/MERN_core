@@ -1,4 +1,3 @@
-/* eslint-disable brace-style */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 import React, { forwardRef } from 'react';

@@ -16,6 +16,10 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     background-color: #ffffff;
     font-family: 'Open Sans', sans-serif;
+
+    div#root {
+      height: 100vh;
+    }
   }
 
   code {

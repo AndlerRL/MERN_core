@@ -56,7 +56,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use((req, res) => {
     res.sendFile(path.join(cwd, 'build', 'index.html'));
   });
-// eslint-disable-next-line brace-style
 }
 
 app.use((req, res) => {

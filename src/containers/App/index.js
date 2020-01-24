@@ -10,7 +10,7 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import Fallback from 'components/UI/skeletons/fallback';
 
 const App = () => (
-  <SkeletonTheme color="#111" highlightColor="#222">
+  <SkeletonTheme color="#444" highlightColor="#666">
     <Suspense fallback={(
       <Fallback />
     )}

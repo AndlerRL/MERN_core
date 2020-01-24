@@ -58,6 +58,11 @@ const Header = styled(motion.header)`
   }
 `;
 
+const MainWrapper = styled.div`
+  width: 100%;
+  min-height: 100vh;
+`;
+
 const Footer = styled.div`
   background-color: rgba(0, 77, 64, 1);
   width: 100%;
@@ -259,7 +264,9 @@ const Layout = ({ children }) => {
           ease: 'linear',
         }}
         />
-        {children}
+        <MainWrapper>
+          {children}
+        </MainWrapper>
         <Footer>
           <p>
             Website developed by <a href="https://andler.netlify.com" target="__blank" >Andler Develops</a>. 2020 ® All rights reserved.

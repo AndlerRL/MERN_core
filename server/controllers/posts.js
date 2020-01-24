@@ -4,13 +4,25 @@ const Post = require('../model/post');
 const responseService = require('../services/response');
 const ctrl = {};
 
-ctrl.listPosts = async (req, res) => await Post.find().then(posts => {
-  if (posts)
-    return responseService.json(res, 200, posts);
-  
-  throw new Error('Whoops, no posts yet!');
-})
-  .catch(err => logger.warn(err.message));
+ctrl.listPosts = async (req, res) => {
+  const { query } = req;
+
+  const pageOpt = {
+    offset: parseInt(query.offset) || 0,
+    limit: parseInt(query.limit) || 0
+  };
+
+  await Post.find()
+    .skip(pageOpt.offset)
+    .limit(pageOpt.limit)
+    .then(posts => {
+      if (posts)
+        return responseService.json(res, 200, posts);
+    
+      throw new Error('Whoops, no posts yet!');
+    })
+    .catch(err => logger.warn(err.message));
+};
 
 ctrl.getPost = async (req, res) => {
   try {

@@ -5,6 +5,7 @@ export const Btn = {
   Primary: styled(Button)`
     font-weight: ${themeGet('fontWeights.light')} !important;
     color: ${themeGet('colors.white')} !important;
+    padding: 8px 10px !important;
 
     a {
       color: ${themeGet('colors.white')} !important;
@@ -18,6 +19,7 @@ export const Btn = {
   Secondary: styled(Button)`
     font-weight: ${themeGet('fontWeights.light')} !important;
     color: ${themeGet('colors.black')} !important;
+    padding: 8px 10px !important;
 
     a {
       color: ${themeGet('colors.black')} !important;
