@@ -15,6 +15,7 @@ import {
 import { motion, useViewportScroll, useAnimation } from 'framer-motion';
 import { Btn } from 'components/UI/btn';
 import { Icons } from 'components/UI/icons';
+import 'aos/dist/aos.css';
 
 const Header = styled(motion.header)`
   margin-bottom: ${themeGet('space.4')}px;

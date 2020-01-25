@@ -6,6 +6,7 @@ import styled, { themeGet } from 'util/styles';
 import apiService from 'services/apiService';
 import PostSkeleton from 'components/UI/skeletons/post';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import AOS from 'aos';
 
 const Post = styled(Card)`
   width: 91.666%;
@@ -84,8 +85,21 @@ const PostContainer = () => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
+    AOS.init({
+      easing: 'ease-in-cubic',
+      delay: 50,
+      anchorPlacement: 'bottom-top',
+      duration: 1,
+      once: true,
+      mirror: true
+    });
+
     db();
     fetchPost();
+
+    return () => {
+      AOS.refresh();
+    }
   }, []);
 
   const db = async () => {
@@ -136,11 +150,11 @@ const PostContainer = () => {
         pt={6}
       >
         {posts.length > 0 && <Text as="h1">Posts on! Total Posts: {posts.length}</Text>}
-        {posts.map(p => (
-          <Post
+        {posts.map((p, i) => (
+          <Post 
             key={p.id}
-            my={4}
             variant="outlined"
+            data-aos="zoom-in-up"
           >
             <CardMedia
               image={`https://via.placeholder.com/260x260/212121/F5F5F5/?text=${`${p.first}+${p.last}`}+Image`}

@@ -83,7 +83,7 @@ const variants = {
     opacity: 1,
     scale: 1,
     transition: {
-      delay: i * 0.5
+      delay: i * 0.9
     },
   }),
   hidden: { 
@@ -117,17 +117,19 @@ const itemVariants = {
   }
 };
 
-const ContentContainer = styled.div`
+const ContentContainer = styled(Flex)`
   width: 100%;
   max-width: 1200px;
   height: 75vh;
-  display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: center;
+  position: relative;
 
-  & > .PostInfo {
-    align-items: center;
+  .Title {
+    position: absolute;
+    top: -108px;
+    width: 100%;
+    text-align: center;
   }
 `;
 
@@ -197,9 +199,75 @@ const MainContainer = styled.div`
 
     > div {
       width: 100%;
-      direction: rtl;
       padding: 32px;
       background: radial-gradient(#fff8 10%,#fff1 90%);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      @media screen and (min-width: 600px) {
+        flex-direction: row;
+
+        li {
+          text-align: right;
+        }
+
+        > div {
+          justify-content: flex-end;
+        }
+      }
+
+      > ul,
+      > div {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          font-size: 16px;
+          font-weight: 400;
+          margin: 0.75rem auto;
+          list-style: none;
+          text-align: center;
+        }
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media screen and (min-width: 600px) {
+          justify-content: flex-end;
+        }
+
+        > button {
+          padding: 16px;
+        }
+      } 
+    }
+  }
+
+  .NewPostInfo {
+    background: url(/assets/images/create-blog.jpg) no-repeat;
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      width: 100%;
+      padding: 32px;
+      background: radial-gradient(#fff7 10%,#fff5 90%);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -255,13 +323,6 @@ const MainContainer = styled.div`
     }
   }
 
-  .NewPostInfo {
-    background: url(/assets/images/create-blog.jpg) no-repeat;
-    background-size: 44% cover;
-    background-position: right center;
-    padding: 62px;
-  }
-
   .FramerMotion {
     background-color: red;
     box-shadow: 5px 5px 20px 5px #2225;
@@ -303,19 +364,8 @@ const Home = (props, ref) => {
     scale: 1,
     rotate: 0,
   });
-  const [newPostInfoAnim, newPostInfoCycle] = useCycle({
-    borderRadius: '100%',
-    scale: 0.7,
-    x: '-50vw',
-    cursor: 'pointer',
-    alignItems: 'center',
-  },{
-    borderRadius: 0,
-    scale: 1,
-    x: 0,
-    alignItems: innerWidth < 770 ? 'center' : 'flex-end',
-  });
   const controlPostAnim = useAnimation();
+  const controlNewPostAnim = useAnimation();
 
   useEffect(() => {
     window.addEventListener('resize', resize);
@@ -355,8 +405,18 @@ const Home = (props, ref) => {
       });
     }
 
-    if (component === 'newPost')
-      setNewPost(!newPost);
+    if (component === 'newPost') {
+      setNewPost(true);
+
+      controlNewPostAnim.start({
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        alignItems: innerWidth < 770 ? 'center' : 'flex-start',
+        width: '100%',
+        height: '100%',
+        cursor: 'initial'
+      });
+    }
   };
 
 
@@ -486,7 +546,10 @@ const Home = (props, ref) => {
           }}
           my={6}
         />
-        <ContentContainer>
+        <ContentContainer
+          alignItems="flex-end"
+        >
+          <Box as="h1" className="Title">Discover our Blog!</Box>
           <Tooltip
             text="Click for More"
             visible={post}
@@ -510,6 +573,21 @@ const Home = (props, ref) => {
           >
             {post ?
               <div>
+                <motion.div
+                  custom={8}
+                  initial="hidden"
+                  animate="visible"
+                  variants={variants}
+                  style={{
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  <Btn.Secondary variant="contained" size="large">
+                    <NavLink to="/posts">
+                      Go To Posts
+                    </NavLink>
+                  </Btn.Secondary>
+                </motion.div>
                 <ul>
                   {items.map((item, i) => (
                     <motion.li
@@ -523,18 +601,6 @@ const Home = (props, ref) => {
                     </motion.li>
                   ))}
                 </ul>
-                <motion.div
-                  custom={8}
-                  initial="hidden"
-                  animate="visible"
-                  variants={variants}
-                >
-                  <Btn.Secondary variant="contained" size="large">
-                    <NavLink to="/posts">
-                      Go To Posts
-                    </NavLink>
-                  </Btn.Secondary>
-                </motion.div>
               </div> :
               <motion.span
                 animate={{
@@ -555,7 +621,11 @@ const Home = (props, ref) => {
           }}
           my={6}
         />
-        <ContentContainer>
+        <ContentContainer
+          alignItems="flex-start"
+          mb={6}
+        >
+          <Box as="h1" className="Title">Write About What You Like!</Box>
           <Tooltip
             text="Click for More"
             visible={newPost}
@@ -565,9 +635,10 @@ const Home = (props, ref) => {
               borderBottomRightRadius: '100px',
               cursor: 'pointer',
               alignItems: 'center',
+              width: '50%',
+              height: '50%'
             }}
-            animate={newPostInfoAnim}
-            onTap={() => newPostInfoCycle()}
+            animate={controlNewPostAnim}
             whileTap={{ opacity: !newPost && 0.8 }}
             transition={{
               ease: 'backIn',
@@ -578,24 +649,26 @@ const Home = (props, ref) => {
           >
             {newPost ?
               <div>
-                {items.map((item, i) => (
-                  <motion.li
-                    key={i}
-                    custom={i}
-                    initial="hidden"
-                    animate="visible"
-                    variants={variants}
-                  >
-                    {item}
-                  </motion.li>
-                ))}
+                <ul>
+                  {items.map((item, i) => (
+                    <motion.li
+                      key={i}
+                      custom={i}
+                      initial="hidden"
+                      animate="visible"
+                      variants={variants}
+                    >
+                      {item}
+                    </motion.li>
+                  ))}
+                </ul>
                 <motion.div
                   custom={8}
                   initial="hidden"
                   animate="visible"
                   variants={variants}
                 >
-                  <Btn.Secondary>
+                  <Btn.Secondary variant="contained" size="large">
                     <NavLink to="/admin/new-post">
                       Create New Post
                     </NavLink>
