@@ -1,120 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Btn } from 'components/UI/btn';
-import styled, { themeGet } from 'util/styles';
+import styled from 'util/styles';
 import { Box, Flex } from 'rebass';
 import * as anim from 'util/animations';
 import { Icons } from 'components/UI/icons';
 import { motion, useCycle, useAnimation } from 'framer-motion';
 import Mern from 'components/UI/mern';
 import Tooltip from 'components/UI/tooltip';
-
-const move = i => {
-  const { innerWidth } = window;
-
-  if (innerWidth >= 920) {
-    if (i === 0)
-      return 800 - 550;
-  
-    if (i === 1)
-      return 800 - 660;
-  
-    if (i === 2)
-      return 800 - 815;
-  
-    if (i === 3)
-      return 800 - 955;
-  }
-
-  if (innerWidth <= 919 && innerWidth >= 830) {
-    if (i === 0)
-      return 800 - 570;
-  
-    if (i === 1)
-      return 800 - 665;
-  
-    if (i === 2)
-      return 800 - 810;
-  
-    if (i === 3)
-      return 800 - 935;
-  }
-
-  if (innerWidth <= 829 && innerWidth >= 740) {
-    if (i === 0)
-      return 800 - 600;
-  
-    if (i === 1)
-      return 800 - 675;
-  
-    if (i === 2)
-      return 0;
-  
-    if (i === 3)
-      return 800 - 905;
-  }
-
-  if (innerWidth <= 749 && innerWidth >= 500) {
-    if (i === 0)
-      return innerWidth * 0.5;
-  
-    if (i === 1)
-      return innerWidth * 0.25;
-  
-    if (i === 2)
-      return innerWidth * 0.16;
-  
-    if (i === 3)
-      return innerWidth * 0.8;
-  }
-};
-
-const capitalVariants = {
-  initial: {
-    x: 0
-  },
-  move: i => ({
-    x: move(i)
-  })
-};
+import useIO from 'hooks/InterceptionObserver';
 
 const variants = {
   visible: i => ({
     opacity: 1,
     scale: 1,
     transition: {
-      delay: i * 0.9
+      delay: (i * 0.5) + 0.5
     },
   }),
   hidden: { 
     opacity: 0,
     scale: 0.1
   },
-};
-
-const MERNVariants = {
-  hidden: {
-    x: 1000,
-    opacity: 0
-  },
-  visible: i => ({
-    x: 0,
-    opacity: 1,
-    transition: {
-      ease: 'easeOut',
-      delay: i * 0.3
-    }
-  })
-};
-
-const itemVariants = {
-  hide: {
-    opacity: 0,
-    textShadow: 'transparent',
-  },
-  show: {
-    opacity: 1,
-  }
 };
 
 const ContentContainer = styled(Flex)`
@@ -200,7 +107,7 @@ const MainContainer = styled.div`
     > div {
       width: 100%;
       padding: 32px;
-      background: radial-gradient(#fff8 10%,#fff1 90%);
+      background: radial-gradient(#fff6 10%,#fff4 90%);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -267,7 +174,7 @@ const MainContainer = styled.div`
     > div {
       width: 100%;
       padding: 32px;
-      background: radial-gradient(#fff7 10%,#fff5 90%);
+      background: radial-gradient(#fff6 10%,#fff4 90%);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -348,13 +255,13 @@ const MainContainer = styled.div`
   }
 `;
 
-const Home = (props, ref) => {
+const Home = () => {
   const [list, setList] = useState(false);
   const [post, setPost] = useState(false);
   const [newPost, setNewPost] = useState(false);
-  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
   const [anim, cycle] = useCycle({
-    borderRadius: '1000%',
+    borderRadius: '250px',
     opacity: 0.5,
     scale: 0.5,
     rotate: 90,
@@ -364,8 +271,21 @@ const Home = (props, ref) => {
     scale: 1,
     rotate: 0,
   });
+  const IOComponentAnim = useAnimation();
   const controlPostAnim = useAnimation();
   const controlNewPostAnim = useAnimation();
+  const resize = useCallback(
+    () => {
+      const { innerWidth } = window;
+      if (innerWidth !== width)
+        setWidth(innerWidth);
+    },
+    [width]
+  );
+  const [observer, setElements, entries] = useIO({
+    threshold: [0.5],
+    root: null
+  });
 
   useEffect(() => {
     window.addEventListener('resize', resize);
@@ -373,12 +293,41 @@ const Home = (props, ref) => {
     return () => {
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [resize]);
 
-  const resize = () => {
-    if (window.innerWidth !== innerWidth)
-      setInnerWidth(window.innerWidth);
-  };
+  useEffect(() => {
+    const IOComponents = Array.from(document.querySelectorAll('#IOContent'));
+    
+    setElements(IOComponents);
+  }, [setElements]);
+
+  useEffect(() => {
+    entries.forEach(entry => {
+      const { isIntersecting, target } = entry;
+      
+      if (isIntersecting) {
+        IOComponentAnim.start({
+          borderRadius: '100%',
+          opacity: 0.5,
+          scale: 0.5,
+          transition: {
+            duration: 0.25
+          }
+        });
+        observer.unobserve(target);
+      } else {
+        IOComponentAnim.start({
+          borderRadius: '100%',
+          opacity: 0,
+          scale: 0.25,
+          transition: {
+            duration: 0.25
+          }
+        });
+        observer.unobserve(target);
+      }
+    });
+  }, [entries, observer]);
 
   const moreOptHandler = () => {
     window.scroll({
@@ -398,7 +347,7 @@ const Home = (props, ref) => {
       controlPostAnim.start({
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
-        alignItems: innerWidth < 770 ? 'center' : 'flex-end',
+        alignItems: width < 770 ? 'center' : 'flex-end',
         width: '100%',
         height: '100%',
         cursor: 'initial'
@@ -411,7 +360,7 @@ const Home = (props, ref) => {
       controlNewPostAnim.start({
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
-        alignItems: innerWidth < 770 ? 'center' : 'flex-start',
+        alignItems: width < 770 ? 'center' : 'flex-start',
         width: '100%',
         height: '100%',
         cursor: 'initial'
@@ -429,13 +378,6 @@ const Home = (props, ref) => {
     'Donec feugiat dignissim mauris, a tincidunt enim. Maecenas auctor massa massa, nec rutrum orci sagittis et.'
   ];
 
-  const MERN = [
-    'Mongo',
-    'Express',
-    'React',
-    'Node'
-  ];
-
   return (
     <Flex
       flexDirection="column"
@@ -446,41 +388,7 @@ const Home = (props, ref) => {
       <HeadContainer>
         <div>
           <div>
-            <Mern>
-              {MERN.map((i, k) => (
-                <motion.div
-                  key={k}
-                  custom={k}
-                  animate="visible"
-                  initial="hidden"
-                  variants={MERNVariants}
-                >
-                  <motion.span
-                    custom={k}
-                    animate="move"
-                    initial="initial"
-                    variants={capitalVariants}
-                    transition={{
-                      ease: 'backIn',
-                      duration: 1,
-                      delay: 1.75
-                    }}
-                  >
-                    {i.substring(0, 1)}
-                  </motion.span>
-                  <motion.span
-                    animate="hide"
-                    initial="show"
-                    variants={itemVariants}
-                    transition={{
-                      delay: 1.5
-                    }}
-                  >
-                    {i.substring(1, i.length)}
-                  </motion.span>
-                </motion.div>
-              ))}
-            </Mern>
+            <Mern />
           </div>
           <Box as="hr" width={10 / 12} 
             mx="auto"
@@ -579,7 +487,7 @@ const Home = (props, ref) => {
                   animate="visible"
                   variants={variants}
                   style={{
-                    justifyContent: 'flex-start'
+                    justifyContent: 'center'
                   }}
                 >
                   <Btn.Secondary variant="contained" size="large">
@@ -667,6 +575,9 @@ const Home = (props, ref) => {
                   initial="hidden"
                   animate="visible"
                   variants={variants}
+                  style={{
+                    justifyContent: 'center'
+                  }}
                 >
                   <Btn.Secondary variant="contained" size="large">
                     <NavLink to="/admin/new-post">

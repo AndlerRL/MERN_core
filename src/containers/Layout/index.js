@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-curly-spacing */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled, { themeGet, ThemeProvider, theme } from 'util/styles';
@@ -12,9 +12,10 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import { motion, useViewportScroll, useAnimation } from 'framer-motion';
+import { motion, useViewportScroll } from 'framer-motion';
 import { Btn } from 'components/UI/btn';
 import { Icons } from 'components/UI/icons';
+import BackToTop from 'components/UI/backToTop';
 import 'aos/dist/aos.css';
 
 const Header = styled(motion.header)`
@@ -47,7 +48,7 @@ const Header = styled(motion.header)`
   .Navigation {
     width: 300px;
     position: relative;
-    background-color: inherit;
+    background-color: transparent !important;
 
     .Mui-selected {
       color: ${themeGet('colors.secondary.500')};
@@ -65,7 +66,7 @@ const MainWrapper = styled.div`
 `;
 
 const Footer = styled.div`
-  background-color: rgba(0, 77, 64, 1);
+  background-color: rgb(15, 16, 18);
   width: 100%;
   height: 25vh;
   display: flex;
@@ -99,13 +100,21 @@ const Layout = ({ children }) => {
   const [navValue, setNavValue] = useState(t('navigation.p1'));
   const [openMenu, setOpenMenu] = useState(null);
   const [lang, setLang] = useState(navigator.language);
-  const [y, setY] = useState(window.scrollY);
+  const [y, setY] = useState(0);
   const { scrollYProgress } = useViewportScroll();
-  const controls = useAnimation();
+  const scroll = useCallback(
+    () => {
+      const { scrollY } = window;
+      setY(scrollY);
+    },
+    [y]
+  );
 
-  useEffect((y = window.scrollY) => {
-    if (window.location.pathname !== '/') {
-      if (window.location.pathname === '/posts')
+  useEffect(() => {
+    const { pathname } = window.location;
+  
+    if (pathname !== '/') {
+      if (pathname === '/posts')
         setNavValue(t('navigation.p2'));
       else
         setNavValue(t('navigation.p3'));
@@ -113,22 +122,19 @@ const Layout = ({ children }) => {
 
     setLang(localStorage.getItem('lng' || 'i18nextLng'));
 
-    window.addEventListener('scroll', () => {
-      if (y !== window.scrollY)
-        setY(window.scrollY);
-    });
+    window.addEventListener('scroll', scroll);
 
     return () => {
-      if (window.location.pathname !== '/') {
-        if (window.location.pathname === '/posts')
+      if (pathname !== '/') {
+        if (pathname === '/posts')
           setNavValue(t('navigation.p2'));
         else
           setNavValue(t('navigation.p3'));
       }
 
-      setLang(localStorage.getItem('lng' || 'i18nextLng'));
+      window.removeEventListener('scroll', scroll);
     };
-  });
+  }, [scroll, t]);
 
   const navChangeHandler = (e, newVal) => {
     setNavValue(newVal);
@@ -157,29 +163,20 @@ const Layout = ({ children }) => {
     i18n.changeLanguage(language);
     setOpenMenu(null);
   };
-
-  controls.start(() => y > 24 && {
-    background: 'rgba(0, 77, 64, 1)',
-  });
-
-  controls.start(() => y < 24 && {
-    background: 'rgba(0, 77, 64, 0)',
-  });
   
   return (
     <NoSsr>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Header
-          animate={controls}
+          animate={{
+            background: y < 24 ? 'rgba(0, 77, 64, 0)' : 'rgba(0, 77, 64, 1)'
+          }}
           initial={{
             background: 'rgba(0, 77, 64, 0)'
           }}
           transition={{
-            type: 'spring',
-            stiffness: 800,
-            damping: 35,
-            duration: 1
+            ease: 'linear',
           }}
         >
           <picture>
@@ -262,9 +259,10 @@ const Layout = ({ children }) => {
           zIndex: 1600
         }}
         transition={{
-          ease: 'linear',
+          ease: 'linear'
         }}
         />
+        <BackToTop />
         <MainWrapper>
           {children}
         </MainWrapper>

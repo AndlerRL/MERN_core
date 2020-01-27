@@ -16,10 +16,6 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     background-color: #ffffff;
     font-family: 'Open Sans', sans-serif;
-
-    div#root {
-      height: 100vh;
-    }
   }
 
   code {
@@ -29,6 +25,11 @@ const GlobalStyles = createGlobalStyle`
   
   a {
     text-decoration: none;
+  }
+
+  h1, h2, h3, h4, h5, h5 {
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
   }
 
   .MuiPopover-root {
