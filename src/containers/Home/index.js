@@ -304,6 +304,31 @@ const Home = () => {
   useEffect(() => {
     entries.forEach(entry => {
       const { isIntersecting, target } = entry;
+
+      /**
+       * 
+       * 
+       * 
+       * 
+       * 
+       * Lo que podría hacer aquí es crear un state,
+       * en donde se actualize
+       * cuando el componente esté en el viewport,
+       * usar ése state, para poder
+       * realizar un interpolate conditional, 
+       * en donde cambie tipo de 
+       * ejecución de animación y así no tener el
+       * problema del looping
+       * animate que está causando y hace que
+       * la aplicación corra lento.
+       * 
+       * Se puede usar useAnimation() Hook y el useCycle() Hook
+       * 
+       * 
+       * 
+       * 
+       * 
+       */
       
       if (isIntersecting) {
         IOComponentAnim.start({

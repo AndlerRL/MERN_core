@@ -19,18 +19,37 @@ const EndPosts = styled.div`
     font-weight: 300;
     letter-spacing: 2px;
     color: #f5f5f5;
+    z-index: 100;
+    width: 100%;
+    text-align: center;
   }
 
   > div {
-    background: url(/assets/images/end-post2.jpg) no-repeat;
+    background: url(/assets/images/end-post.jpg) no-repeat;
     background-position: center center;
     background-size: contain;
-    width: 75%;
+    width: 91.666%;
     margin: 0 auto;
-    max-width: 782px;
+    max-width: 880px;
     height: calc(66vh - 33.33%);
-    max-height: 782px;
+    max-height: 880px;
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      background: url(/assets/images/astronaut.png) no-repeat;
+      background-position: center center;
+      background-size: contain;
+      width: 66%;
+      margin: 0 auto;
+      max-width: 405px;
+      height: 66%;
+      max-height: 405px;
+      position: absolute;
+      top: 24px;
+    }
   }
 `;
 
@@ -40,19 +59,21 @@ const noContent = ({ is404 }) => (
       Well, it seems you reach at the end of all!
     </motion.h2>
     {is404 ? <motion.h1>404 – NOT FOUND</motion.h1> : null}
-    <motion.div
-      animate={{
-        x: [null, 30, 15, -15, -30, -15],
-        y: [null, 15, 30, -15, -15, -30],
-        z: [null, 5, 0, -10, 5, 10],
-        scale: [null, 1.04, 1.01, 1.05, 1.02, 1.03]
-      }}
-      transition={{
-        duration: 4,
-        times: [0, 0.5, 1],
-        yoyo: Infinity
-      }}
-    />
+    <div>
+      <motion.div
+        animate={{
+          x: [null, 30, 15, -15, -30, -15],
+          y: [null, 15, 30, -15, -15, -30],
+          z: [null, 5, 0, -10, 5, 10],
+          scale: [null, 1.04, 1.01, 1.05, 1.02, 1.03]
+        }}
+        transition={{
+          duration: 4,
+          times: [0, 0.5, 1],
+          yoyo: Infinity
+        }}
+      />
+    </div>
   </EndPosts>
 );
 
