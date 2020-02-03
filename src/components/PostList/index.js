@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Flex, Text } from 'rebass';
 import { Card, CardActions, CardContent, Typography, Paper, CardMedia } from '@material-ui/core';
 import { Btn } from 'components/UI/btn';
@@ -79,66 +80,70 @@ const Topic = styled(Paper)`
     ${themeGet('shadows.d1.2')};
 `;
 
-const PostList = ({ posts, fetchPost, hasMore }) => (
-  <InfiniteScroll
-    dataLength={posts && posts.length}
-    next={fetchPost}
-    hasMore={hasMore}
-    loader={<PostSkeleton />}
-    endMessage={<EndPost />}
-  >
-    <Flex
-      flexDirection="column"
-      flexWrap="wrap"
-      alignItems="center"
-      justifyContent="flex-start"
-      width={1}
-      pt={6}
+const PostList = ({ posts, fetchPost, hasMore }) => {
+  const { t, i18n } = useTranslation();
+  
+  return (
+    <InfiniteScroll
+      dataLength={posts && posts.length}
+      next={fetchPost}
+      hasMore={hasMore}
+      loader={<PostSkeleton />}
+      endMessage={<EndPost />}
     >
-      {posts.length > 0 && <Text as="h1">Posts on! Total Posts: {posts.length}</Text>}
-      {posts.map((p, i) => (
-        <Post 
-          key={p.id}
-          variant="outlined"
-          data-aos="zoom-in-up"
-        >
-          <CardMedia
-            image={`https://via.placeholder.com/260x260/212121/F5F5F5/?text=${`${p.first}+${p.last}`}+Image`}
-            title="User Image"
-          />
-          <CardContent>
-            <Typography component="span" color="textSecondary" variant="body2" gutterBottom>
-              written by {p.author || `${p.first} ${p.last}`}
-            </Typography>
-            <Typography component="p" color="textSecondary" variant="body1" style={{ whiteSpace: 'pre-line' }}>
-              {`${p.text && (p.text).substring(0, 100)} …` || `${p.content && (p.content).substring(0, 100)} …`}
-            </Typography>
-            <Flex
-              alignItems="center"
-              justifyContent="flex-start"
-              flexWrap="wrap"
-            >
-              {p.topics.map((t, i) => (
-                <Topic 
-                  elevation={3}
-                  variant="outlined"
-                  key={i}
-                >
-                  {t}
-                </Topic>
-              ))}
-            </Flex>
-            <CardActions>
-              <Btn.Secondary>
-                Show more
-              </Btn.Secondary>
-            </CardActions>
-          </CardContent>
-        </Post>
-      ))}
-    </Flex>
-  </InfiniteScroll>
-);
+      <Flex
+        flexDirection="column"
+        flexWrap="wrap"
+        alignItems="center"
+        justifyContent="flex-start"
+        width={1}
+        pt={6}
+      >
+        {posts.length > 0 && <Text as="h1">{`${t('postOn')}${posts.length}`}</Text>}
+        {posts.map((p, i) => (
+          <Post 
+            key={p.id}
+            variant="outlined"
+            data-aos="zoom-in-up"
+          >
+            <CardMedia
+              image={`https://via.placeholder.com/260x260/212121/F5F5F5/?text=${`${p.first}+${p.last}`}+Image`}
+              title="User Image"
+            />
+            <CardContent>
+              <Typography component="span" color="textSecondary" variant="body2" gutterBottom>
+                {`${t('post.author')}${p.author || `${p.first} ${p.last}`}`}
+              </Typography>
+              <Typography component="p" color="textSecondary" variant="body1" style={{ whiteSpace: 'pre-line' }}>
+                {`${p.text && (p.text).substring(0, 100)} …` || `${p.content && (p.content).substring(0, 100)} …`}
+              </Typography>
+              <Flex
+                alignItems="center"
+                justifyContent="flex-start"
+                flexWrap="wrap"
+              >
+                {p.topics.map((t, i) => (
+                  <Topic 
+                    elevation={3}
+                    variant="outlined"
+                    key={i}
+                  >
+                    {t}
+                  </Topic>
+                ))}
+              </Flex>
+              <CardActions>
+                <Btn.Secondary>
+                  {t('post.showMore')}
+                </Btn.Secondary>
+              </CardActions>
+            </CardContent>
+          </Post>
+        ))}
+      </Flex>
+    </InfiniteScroll>
+  );
+};
 
 PostList.propTypes = {
   posts: PropTypes.array.isRequired,

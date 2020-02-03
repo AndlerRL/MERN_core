@@ -5,5 +5,26 @@
     "p1": "Home",
     "p2": "Posts",
     "p3": "Create Post"
+  },
+  "language": {
+    "title": "Language",
+    "es": "SPA (LA)",
+    "en": "ENG (US)"
+  },
+  "noContent": {
+    "404": "404 - Page Not Found.",
+    "endPost": "Well, it seems you reach at the end of all!"
+  },
+  "postOn": "Post on! Total Posts: ",
+  "clickMe": "Click Me!",
+  "createPost": "Create New Post",
+  "goPost": "Go to Posts",
+  "blogTitle": "Discover Our Blog!",
+  "newBlogTitle": "Write About What You Like!",
+  "credits": ["Website developed by ", ". 2020 ® All Right Reserved."],
+  "post": {
+    "author": "written by ",
+    "showMore": "Show More",
+    "filters": "Filters"
   }
 }

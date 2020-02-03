@@ -1,0 +1,20 @@
+{
+  "reviewForm": "Article Form",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "postContent": "Post Content",
+  "addParagraph": "Add new Paragraph",
+  "topics": "Topics",
+  "topicsHint": "In order to create new topics on post, use ',' (comma) to separate them.",
+  "submitting": "Submitting",
+  "submit": "Submit",
+  "error": ["Please, input ", " correctly."],
+  "login": {
+    "errorPW": "I'm sorry, but password doesn't match.",
+    "email": "Email",
+    "password": "Password",
+    "confirmPW": "Verify your Password",
+    "login": "Log In",
+    "logout": "Log Out"
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import styled from 'util/styles';
 
 const EndPosts = styled.div`
@@ -53,32 +54,35 @@ const EndPosts = styled.div`
   }
 `;
 
-const noContent = ({ is404 }) => (
-  <EndPosts>
-    <motion.h2>
-      Well, it seems you reach at the end of all!
-    </motion.h2>
-    {is404 ? <motion.h1>404 – NOT FOUND</motion.h1> : null}
-    <div>
-      <motion.div
-        animate={{
-          x: [null, 30, 15, -15, -30, -15],
-          y: [null, 15, 30, -15, -15, -30],
-          z: [null, 5, 0, -10, 5, 10],
-          scale: [null, 1.04, 1.01, 1.05, 1.02, 1.03]
-        }}
-        transition={{
-          duration: 4,
-          times: [0, 0.5, 1],
-          yoyo: Infinity
-        }}
-      />
-    </div>
-  </EndPosts>
-);
+const NoContent = ({ is404 }) => {
+  const { t, i18n } = useTranslation();
 
-noContent.propTypes = {
+  return (
+    <EndPosts>
+      {is404 ?
+        <motion.h1>{t('noContent.404')}</motion.h1> 
+        : <motion.h2>{t('noContent.endPost')}</motion.h2>}
+      <div>
+        <motion.div
+          animate={{
+            x: [null, 30, 15, -15, -30, -15],
+            y: [null, 15, 30, -15, -15, -30],
+            z: [null, 5, 0, -10, 5, 10],
+            scale: [null, 1.04, 1.01, 1.05, 1.02, 1.03]
+          }}
+          transition={{
+            duration: 4,
+            times: [0, 0.5, 1],
+            yoyo: Infinity
+          }}
+        />
+      </div>
+    </EndPosts>
+  )
+};
+
+NoContent.propTypes = {
   is404: PropTypes.bool
 };
 
-export default noContent;
+export default NoContent;

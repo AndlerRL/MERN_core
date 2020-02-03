@@ -1,0 +1,20 @@
+{
+  "reviewForm": "Formulario de Artículo",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "postContent": "Contenido del Artículo",
+  "addParagraph": "Agregar nuevo párrafo",
+  "topics": "Temas",
+  "topicsHint": "Para crear nuevos temas en el artículo, utiliza ',' (coma) para separarlos.",
+  "submitting": "Posteando",
+  "submit": "Postear",
+  "error": ["Por favor, introduzca el ", " correctamente."],
+  "login": {
+    "errorPW": "Lo lamento, pero la contraseña no coincide.",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPW": "Verifique Contraseña",
+    "login": "Ingresar",
+    "logout": "Cerrar Sesión"
+  }
+}

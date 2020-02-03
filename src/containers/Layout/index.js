@@ -200,14 +200,16 @@ const Layout = ({ children }) => {
               horizontal: 'center'
             }}
             transformOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'center'
             }}
+            getContentAnchorEl={null}
             style={{
-              marginTop: 40,
               backgroundColor: '#009688a3',
               fontWeight: 'lighter',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              marginTop: 64,
+              top: 0
             }}
           >
             <MenuItem onClick={() => changeLanguage('es')}>
@@ -268,7 +270,7 @@ const Layout = ({ children }) => {
         </MainWrapper>
         <Footer>
           <p>
-            Website developed by <a href="https://andler.netlify.com" target="__blank" >Andler Develops</a>. 2020 ® All rights reserved.
+            {t('credits.0')}<a href="https://andler.netlify.com" target="__blank" >Andler Develops</a>{t('credits.1')}
           </p>
         </Footer>
       </ThemeProvider>

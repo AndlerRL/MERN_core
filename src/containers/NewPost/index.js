@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PostForm from 'components/PostForm';
 import apiService from 'services/apiService';
 import { updateObject, checkValidity } from 'util/share/utility';
+import { useTranslation } from 'react-i18next';
 import { Flex } from 'rebass';
 
-const NewPost = () => {
+const NewPost = React.memo(() => {
+  const { t } = useTranslation('postForm');
   const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({
     first: {
@@ -12,7 +14,7 @@ const NewPost = () => {
       elementConfig: {
         type: 'text',
       },
-      label: 'First',
+      label: t('firstName'),
       value: '',
       validation: {
         required: true,
@@ -25,7 +27,7 @@ const NewPost = () => {
       elementConfig: {
         type: 'text',
       },
-      label: 'Last',
+      label: t('lastName'),
       value: '',
       validation: {
         required: true,
@@ -38,7 +40,7 @@ const NewPost = () => {
       elementConfig: {
         type: 'textarea',
       },
-      label: 'Post Content',
+      label: t('postContent'),
       value: '',
       validation: {
         required: true,
@@ -51,7 +53,7 @@ const NewPost = () => {
       elementConfig: {
         type: 'text',
       },
-      label: 'Topics',
+      label: t('topics'),
       value: '',
       validation: {
         required: true,
@@ -62,6 +64,30 @@ const NewPost = () => {
   });
   const [formIsValid, setFormIsValid] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (form.first.label !== t('firstName')) {
+      setForm({
+        ...form,
+        first: {
+          ...form.first,
+          label: t('firstName')
+        },
+        last: {
+          ...form.last,
+          label: t('lastName')
+        },
+        content: {
+          ...form.content,
+          label: t('postContent')
+        },
+        topics: {
+          ...form.topics,
+          label: t('topics')
+        },
+      });
+    }
+  });
 
   const inputChangedHandler = (e, inputId) => {
     const { target } = e;
@@ -77,7 +103,7 @@ const NewPost = () => {
     });
 
     // eslint-disable-next-line no-nested-ternary
-    const topicsArray = id === 'Topics' ?
+    const topicsArray = id === t('topics') ?
       updatedFormEle.value.search(',') !== -1 ?
         updatedFormEle.value.split(',') :
         updatedFormEle.value.split(' ') 
@@ -87,10 +113,10 @@ const NewPost = () => {
       [inputId]: updatedFormEle
     });
 
-    if (id === 'Topics') {
+    if (id === t('topics')) {
       updatedForm = updateObject(form, {
         [inputId]: updatedFormEle,
-        topics: id === 'Topics' && {
+        topics: id === t('topics') && {
           ...updatedFormEle,
           value: topicsArray
         }
@@ -144,21 +170,14 @@ const NewPost = () => {
   };
 
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="flex-start"
-      pt={6}
-      width={1}
-    >
-      <PostForm 
-        form={form}
-        submitting={submitting}
-        onChange={inputChangedHandler}
-        onSubmit={submitHandler} 
-        onDelete={deleteTopicHandler}
-      />
-    </Flex>
+    <PostForm 
+      form={form}
+      submitting={submitting}
+      onChange={inputChangedHandler}
+      onSubmit={submitHandler} 
+      onDelete={deleteTopicHandler}
+    />
   );
-};
+});
 
 export default NewPost;

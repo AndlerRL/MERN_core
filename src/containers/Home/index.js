@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Btn } from 'components/UI/btn';
+import { useTranslation } from 'react-i18next';
 import styled from 'util/styles';
 import { Box, Flex } from 'rebass';
 import * as anim from 'util/animations';
@@ -256,6 +257,7 @@ const MainContainer = styled.div`
 `;
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
   const [list, setList] = useState(false);
   const [post, setPost] = useState(false);
   const [newPost, setNewPost] = useState(false);
@@ -482,7 +484,7 @@ const Home = () => {
         <ContentContainer
           alignItems="flex-end"
         >
-          <Box as="h1" className="Title">Discover our Blog!</Box>
+          <Box as="h1" className="Title">{t('blogTitle')}</Box>
           <Tooltip
             text="Click for More"
             visible={post}
@@ -517,7 +519,7 @@ const Home = () => {
                 >
                   <Btn.Secondary variant="contained" size="large">
                     <NavLink to="/posts">
-                      Go To Posts
+                      {t('goPost')}
                     </NavLink>
                   </Btn.Secondary>
                 </motion.div>
@@ -558,7 +560,7 @@ const Home = () => {
           alignItems="flex-start"
           mb={6}
         >
-          <Box as="h1" className="Title">Write About What You Like!</Box>
+          <Box as="h1" className="Title">{t('newBlogTitle')}</Box>
           <Tooltip
             text="Click for More"
             visible={newPost}
@@ -606,7 +608,7 @@ const Home = () => {
                 >
                   <Btn.Secondary variant="contained" size="large">
                     <NavLink to="/admin/new-post">
-                      Create New Post
+                      {t('createPost')}
                     </NavLink>
                   </Btn.Secondary>
                 </motion.div>

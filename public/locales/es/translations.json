@@ -10,5 +10,21 @@
     "title": "Idioma",
     "es": "SPA (LA)",
     "en": "ING (US)"
+  },
+  "noContent": {
+    "404": "404 - Página No Encontrada.",
+    "endPost": "Bueno, ¡Al parecer ha llegado al final de todo!"
+  },
+  "postOn": "¡Artículos en línea! Total de Artículos: ",
+  "clickMe": "¡Haz Click Aquí!",
+  "createPost": "Crear Nuevo Artículo",
+  "goPost": "Ir a Artículos",
+  "blogTitle": "¡Descubre Nuestro Blog!",
+  "newBlogTitle": "¡Escribe Acerca De Lo Que Gustes!",
+  "credits": ["Sitio Web desarrollado por ", ". 2020 ® Todos los Derechos Reservados."],
+  "post": {
+    "author": "escrito por ",
+    "showMore": "Mostrar Más",
+    "filters": "Filtros"
   }
 }

@@ -1,18 +1,21 @@
+/* eslint-disable react/display-name */
 /* eslint-disable jsx-a11y/label-has-for */
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { themeGet } from 'util/styles';
+import styled from 'util/styles';
+import { useTranslation } from 'react-i18next';
 import { TextField, MenuItem } from '@material-ui/core';
 
 const Input = styled(TextField)`
   width: 100%;
+  margin: 1rem auto !important;
 
   & .MuiInputBase-input {
     color: blue;
   }
 `;
 
-const input = ({
+const InputComponent = React.memo(({
   shouldValidate,
   touched,
   invalid,
@@ -24,14 +27,15 @@ const input = ({
   elementType,
   elementConfig,
 }) => {
+  const { t } = useTranslation('postForm');
   let inputElement = null;
   let errorHelperText = null;
 
   if (invalid && touched)
-    errorHelperText = `Please, put a valid ${label.toLowerCase()}.`;
+    errorHelperText = `${t('error.0')}${label.toLowerCase()}${t('error.1')}`;
 
-  if (invalid && touched && label === 'Confirm Password')
-    errorHelperText = 'Sorry, password doesn\'t match.';
+  if (invalid && touched && label === t('login.confirmPW'))
+    errorHelperText = t('login.errorPW');
 
   switch (elementType) {
   case 'input':
@@ -77,6 +81,7 @@ const input = ({
         error={invalid && touched}
         helperText={errorHelperText}
         required={shouldValidate}
+        rows="5"
       />
     );
     break;
@@ -115,7 +120,7 @@ const input = ({
         helperText={errorHelperText}
         required={shouldValidate}
       />
-    )
+    );
     break;
   default:
     inputElement = (
@@ -136,9 +141,9 @@ const input = ({
   return (
     inputElement
   );
-};
+});
 
-input.propTypes = {
+InputComponent.propTypes = {
   touched: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
@@ -148,6 +153,7 @@ input.propTypes = {
   changed: PropTypes.func.isRequired,
   shouldValidate: PropTypes.object,
   elementConfig: PropTypes.object.isRequired,
+  inputRef: PropTypes.func,
 };
 
-export default input;
+export default InputComponent;

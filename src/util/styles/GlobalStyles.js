@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     margin: 0;
     background-color: #ffffff;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif !important;
   }
 
   code {
@@ -28,19 +28,24 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h5 {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Oswald', sans-serif !important;
     letter-spacing: 1px;
   }
 
   .MuiPopover-root {
-    margin-top: 0 !important;
-    top: 64px !important;
-
+    & .MuiPaper-rounded {
+      border-radius: 0px 0px 4px 4px !important;
+    }
     > div.MuiPaper-root {
-      background-color: ${themeGet('colors.primary.50')} !important;
+      background-color: ${themeGet('colors.primary.900')} !important;
+      color: #f5f5f5;
+      font-weight: 300 !important;
+      top: 0px !important;
       
       &:focus {
-        background-color: ${themeGet('colors.primary.50')} !important;
+        background-color: ${themeGet('colors.primary.900')} !important;
+        color: #f5f5f5;
+        font-weight: 300 !important;
       }
     }
   }
