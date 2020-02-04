@@ -7,6 +7,15 @@ service.createPost = post => axios.post('/api/posts', post);
 service.deletePost = post => axios.delete(`/api/posts/${post.id}`);
 
 service.getUsers = () => axios.get('/api/users');
+service.loginUser = (email, password) => axios.post('/api/user', {
+  headers: {
+    Authorization: `Basic ${btoa(`${email}:${password}`)}`
+  },
+  auth: {
+    email,
+    password
+  }
+}, { email, password });
 service.getUser = id => axios.get(`/api/users/${id}`);
 service.createUser = user => axios.post('/api/users', user);
 service.deleteUser = id => axios.delete(`/api/users/${id}`);

@@ -10,6 +10,7 @@ router.delete('/posts', postsCtrl.deletePost);
 
 router.get('/users', userCtrl.listUsers);
 router.get('/users/:id', userCtrl.getUser);
+router.post('/user', userCtrl.loginUser);
 router.post('/users', userCtrl.createUser);
 router.delete('/users', userCtrl.deleteUser);
 

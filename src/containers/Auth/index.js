@@ -154,7 +154,9 @@ const Auth = () => {
       [inputId]: updatedFormEle
     });
 
-    processHash(login.password.value);
+    const { password } = updatedForm;
+
+    processHash(password.value);
 
     for (const inputIds in updatedForm)
       isValid = updatedForm[inputIds].validation.valid && isValid;
@@ -168,9 +170,9 @@ const Auth = () => {
     setLoading(true);
     e.persist();
 
+    const { first, last, email, password } = login;
+
     if (isSignUp) {
-      const { first, last, email, password } = login;
-  
       const newUser = {
         first: first.value,
         last: last.value,
@@ -183,13 +185,25 @@ const Auth = () => {
         }
       };
   
-      await apiService.createUser(newUser).then(res => {
-        authContext.login(newUser, isSignUp);
-      });
+      await apiService.createUser(newUser)
+        .then(res => {
+          console.log(res);
+
+          authContext.login(newUser, isSignUp);
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+
     } else {
-      /* await apiService.createUser(newUser).then(res => {
-        authContext.login(newUser, isSignUp);
-      }); */
+      await apiService.loginUser(email.value, password.value)
+        .then(res => {
+          console.log(res);
+          // authContext.login(newUser, isSignUp);
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
 
 
