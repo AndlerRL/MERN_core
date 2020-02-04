@@ -13,66 +13,6 @@ export const zoomInAnimation = keyframes`
   }
 `;
 
-export const fadeOutM = keyframes`
-  from {
-    position: relative;
-    top: initial;
-    left: initial;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translate3d(100%, 0, 0);
-  }
-`;
-
-export const fadeOutE = keyframes`
-  from {
-    position: relative;
-    top: initial;
-    left: initial;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translate3d(108.333%, 0, 0);
-  }
-`;
-
-export const fadeOutR = keyframes`
-  from {
-    position: relative;
-    top: initial;
-    left: initial;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translate3d(-50%, 0, 0);
-  }
-`;
-
-export const fadeOutN = keyframes`
-  from {
-    position: relative;
-    top: initial;
-    left: initial;
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translate3d(-83.333%, 0, 0);
-  }
-`;
-
 export const transparent = keyframes`
   from {
     color: initial;

@@ -208,8 +208,7 @@ const Layout = ({ children }) => {
               backgroundColor: '#009688a3',
               fontWeight: 'lighter',
               cursor: 'pointer',
-              marginTop: 64,
-              top: 0
+              marginTop: 64              
             }}
           >
             <MenuItem onClick={() => changeLanguage('es')}>

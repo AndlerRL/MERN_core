@@ -8,6 +8,7 @@ import Layout from 'containers/Layout';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 import Fallback from 'components/UI/skeletons/fallback';
+import Auth from 'containers/Auth';
 
 const App = () => (
   <SkeletonTheme color="#444" highlightColor="#666">
@@ -19,6 +20,7 @@ const App = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/posts" component={Post} />
+          <Route exact path="/login" component={Auth} />
           <Route exact path="/admin/new-post" component={NewPost} />
           <Route component={NotFound} />
         </Switch>

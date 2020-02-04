@@ -13,7 +13,7 @@
     "errorPW": "I'm sorry, but password doesn't match.",
     "email": "Email",
     "password": "Password",
-    "confirmPW": "Verify your Password",
+    "confirmPW": "Verify Password",
     "login": "Log In",
     "logout": "Log Out"
   }

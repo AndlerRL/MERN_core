@@ -21,7 +21,7 @@ const postSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+}); 
 
 postSchema.virtual('author').get(function() {
   return `${this.first} ${this.last}`;

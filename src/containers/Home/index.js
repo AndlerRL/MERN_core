@@ -9,7 +9,7 @@ import { Icons } from 'components/UI/icons';
 import { motion, useCycle, useAnimation } from 'framer-motion';
 import Mern from 'components/UI/mern';
 import Tooltip from 'components/UI/tooltip';
-import useIO from 'hooks/InterceptionObserver';
+import useIO from 'hooks/useIO';
 
 const variants = {
   visible: i => ({
