@@ -165,7 +165,7 @@ const Auth = () => {
     // setLoginIsValid(isValid);
   };
 
-  const submitHandler = useCallback(async e => {
+  const submitHandler = async e => {
     e.preventDefault();
     setLoading(true);
     e.persist();
@@ -185,27 +185,33 @@ const Auth = () => {
         }
       };
   
-      await apiService.createUser(newUser)
+      await apiService.createUser(newUser, password.value)
         .then(res => {
           console.log(res);
-
-          authContext.login(newUser, isSignUp);
+          const { Authorization } = res.config.headers;
+          /**
+           * 
+           * 
+           * CREATING MAIL BUT NOT RESPONDING CORRECTLY.
+           * 
+           * 
+           */
+          authContext.login(res.data, Authorization);
         })
         .catch(err => {
-          console.log(err.message);
+          console.log({ ...err });
         });
-
     } else {
       await apiService.loginUser(email.value, password.value)
         .then(res => {
-          console.log(res);
-          // authContext.login(newUser, isSignUp);
+          const { Authorization } = res.config.headers;
+          
+          authContext.login(res.data[0], Authorization);
         })
         .catch(err => {
-          console.log(err.message);
+          console.log({ ...err });
         });
     }
-
 
     e.target.reset();
     
@@ -233,8 +239,7 @@ const Auth = () => {
       },
     });
     setLoading(false);
-  },
-  [sha1, sha256, sha384, sha512, login, processHash]);
+  };
 
   const authHandler = opt => {
     if (opt === 'sign-in')

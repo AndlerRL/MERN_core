@@ -19,15 +19,13 @@ ctrl.listUsers = async (req, res) => {
 
 ctrl.loginUser = async (req, res) => {
   try {
-    const { auth } = req.body;
-    const { email, password } = auth;
+    const { email, password } = req.body;
 
-    const md5 = createHash('md5').update(password, 'utf8').digest('hex');
-    const sha1 = createHash('sha1').update(md5, 'utf8').digest('hex');
-    const sha256 = createHash('sha256').update(md5, 'utf8').digest('hex');
-    const sha384 = createHash('sha384').update(md5, 'utf8').digest('base64');
-    const sha512 = createHash('sha512').update(md5, 'utf8').digest('base64');
-
+    const sha1 = createHash('sha1').update(password, 'utf8').digest('hex');
+    const sha256 = createHash('sha256').update(password, 'utf8').digest('hex');
+    const sha384 = createHash('sha384').update(password, 'utf8').digest('base64');
+    const sha512 = createHash('sha512').update(password, 'utf8').digest('base64');
+    
     await User.find({
       email, // String
       'password.sha1': sha1,
@@ -65,34 +63,45 @@ ctrl.getUser = async (req, res) => {
   }
 };
 
-ctrl.createUser = async (req, res) => {
+ctrl.createUser = async (req, res, next) => {
   const { first, last, email, password } = req.body;
 
   try {
     logger.info('Creating User...');
     
-    await User.find({
+    await User.findOne({
       email
-    }).then(user => {
-      if (user) {
-        const message = `I'm sorry, but email ${user[0].email} already exist on database.`
-        logger.warn(message);
-        responseService.json(res, 304, message);
-      } else {
-        const newUser = User.create({
-          first,
-          last,
-          email,
-          password
-        });
+    })
+      .then(user => {
+        if (user !== null) {
+          const message = `I'm sorry, but email ${user.email} already exist on database.`
+          logger.warn(message);
+          responseService.json(res, 304, null, message);
+          res.end();
+        } else {
+          const newUser = User.create({
+            first,
+            last,
+            email,
+            password
+          });
   
-        responseService.json(res, 201, newUser);
-      }
-    }).catch(err => {
-      logger.warn(err.message);
-      responseService.json(res, 404, err);
-    });
-
+          newUser
+            .then(results => {
+              console.log(results);
+              responseService.json(res, 201, results);
+              res.end();
+            })
+            .catch(err => {
+              logger.warn(err);
+              responseService.json(res, 400, null, err);
+            });
+        }
+      })
+      .catch(err => {
+        logger.warn(err.message);
+        responseService.json(res, 404, err);
+      });
   }
   catch (err) {
     logger.warn(err.message);

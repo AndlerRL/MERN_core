@@ -1,8 +1,13 @@
 const service = {};
 
-service.json = (res, status, json) => {
+service.json = (res, status, json, message) => {
   res.status(status);
-  res.json(json);
+  
+  if (json)
+    res.json(json);
+  
+  if (message)
+    res.statusMessage = message;
 };
 
 module.exports = service;
