@@ -1,3 +1,4 @@
+/* eslint-disable newline-per-chained-call */
 import axios from 'axios';
 import { createHash } from 'crypto';
 

@@ -1,12 +1,14 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useReducer } from 'react';
 import apiService from 'services/apiService';
+import PropTypes from 'prop-types';
 
 const initState = {
   isAuth: null,
   user: null,
   loading: false,
   error: null,
+  authRedirectPath: '/'
 };
 
 const authReducer = (state, action) => {
@@ -33,7 +35,18 @@ const authReducer = (state, action) => {
     return {
       ...state,
       error: null,
-    }
+    };
+  case 'SET_PATH':
+    return {
+      ...state,
+      authRedirectPath: action.authRedirectPath
+    };
+  case 'LOGOUT':
+    return {
+      ...state,
+      user: null,
+      isAuth: null,
+    };
   default:
     throw new Error('Whoops, you shouldn\'t be here');
   }
@@ -89,6 +102,10 @@ const AuthContextProvider = React.memo(({ children }) => {
 
   useEffect(() => {
     tryAutoLogin();
+
+    return () => {
+      tryAutoLogin();
+    };
   }, []);
 
   const loginHandler = (userData, token) => {
@@ -114,18 +131,35 @@ const AuthContextProvider = React.memo(({ children }) => {
     localStorage.removeItem('userID');
     localStorage.removeItem('token');
     localStorage.removeItem('expDate');
+
+    dispatch({
+      type: 'LOGOUT'
+    });
+  };
+
+  const authRedirectPathHandler = path => {
+    dispatch({
+      type: 'SET_PATH',
+      authRedirectPath: path
+    });
   };
 
   return (
     <AuthContext.Provider value={{
       login: loginHandler,
       logout: logoutHandler,
-      isAuth: authState.isAuth
+      authRedirectPath: authRedirectPathHandler,
+      isAuth: authState.isAuth,
+      redirectPath: authState.authRedirectPath
     }}
     >
       {children}
     </AuthContext.Provider>
   );
 });
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.any.isRequired
+};
 
 export default AuthContextProvider;

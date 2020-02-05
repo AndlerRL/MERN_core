@@ -29,14 +29,14 @@ const BackToTop = () => {
       const { scrollY } = window;
       setY(scrollY);
     },
-    [y]
+    [setY]
   );
   const resize = useCallback(
     () => {
       const { innerHeight } = window;
       setHeight(innerHeight);
     },
-    [height]
+    [setHeight]
   );
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const BackToTop = () => {
     return () => {
       window.removeEventListener('scroll', scroll);
       window.removeEventListener('resize', resize);
-    }
+    };
   }, [scroll, resize]);
 
   const backToTopHandler = () => {

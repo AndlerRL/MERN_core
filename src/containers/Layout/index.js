@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styled, { themeGet, ThemeProvider, theme } from 'util/styles';
 import GlobalStyles from 'util/styles/GlobalStyles';
-import { NavLink } from 'react-router-dom';
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   NoSsr,
   Menu,
   MenuItem,
@@ -17,6 +14,7 @@ import { Btn } from 'components/UI/btn';
 import { Icons } from 'components/UI/icons';
 import BackToTop from 'components/UI/backToTop';
 import 'aos/dist/aos.css';
+import Navigation from 'components/Navigation';
 
 const Header = styled(motion.header)`
   margin-bottom: ${themeGet('space.4')}px;
@@ -28,8 +26,7 @@ const Header = styled(motion.header)`
   justify-content: space-between;
   height: ${themeGet('space.5')}px;
 
-  h1,
-  .Navigation {
+  h1 {
     height: 100%;
     background-color: inherit;
   }
@@ -42,20 +39,6 @@ const Header = styled(motion.header)`
 
     > img {
       height: 74.999%;
-    }
-  }
-
-  .Navigation {
-    width: 300px;
-    position: relative;
-    background-color: transparent !important;
-
-    .Mui-selected {
-      color: ${themeGet('colors.secondary.500')};
-
-      svg {
-        color: ${themeGet('colors.secondary.500')};
-      }
     }
   }
 `;
@@ -97,7 +80,6 @@ const Footer = styled.div`
 
 const Layout = ({ children }) => {
   const { t, i18n } = useTranslation();
-  const [navValue, setNavValue] = useState(t('navigation.p1'));
   const [openMenu, setOpenMenu] = useState(null);
   const [lang, setLang] = useState(navigator.language);
   const [y, setY] = useState(0);
@@ -107,38 +89,18 @@ const Layout = ({ children }) => {
       const { scrollY } = window;
       setY(scrollY);
     },
-    [y]
+    [y, setY]
   );
 
   useEffect(() => {
-    const { pathname } = window.location;
-  
-    if (pathname !== '/') {
-      if (pathname === '/posts')
-        setNavValue(t('navigation.p2'));
-      else
-        setNavValue(t('navigation.p3'));
-    }
-
     setLang(localStorage.getItem('lng' || 'i18nextLng'));
 
     window.addEventListener('scroll', scroll);
 
     return () => {
-      if (pathname !== '/') {
-        if (pathname === '/posts')
-          setNavValue(t('navigation.p2'));
-        else
-          setNavValue(t('navigation.p3'));
-      }
-
       window.removeEventListener('scroll', scroll);
     };
   }, [scroll, t]);
-
-  const navChangeHandler = (e, newVal) => {
-    setNavValue(newVal);
-  };
 
   const openLanguage = e => {
     setOpenMenu(e.currentTarget);
@@ -218,36 +180,7 @@ const Layout = ({ children }) => {
               {t('language.en')}
             </MenuItem>
           </Menu>
-          <BottomNavigation 
-            value={navValue} 
-            onChange={navChangeHandler}
-            className="Navigation"
-          >
-            <BottomNavigationAction 
-              label={t('navigation.p1')}
-              value={t('navigation.p1')}
-              icon={
-                <NavLink to="/" style={{ width: '100%', minHeight: '100%' }}>
-                  <Icons.Home />
-                </NavLink>}
-            />
-            <BottomNavigationAction 
-              label={t('navigation.p2')}
-              value={t('navigation.p2')}
-              icon={
-                <NavLink to="/posts" style={{ width: '100%', minHeight: '100%' }}>
-                  <Icons.Posts />
-                </NavLink>}
-            />
-            <BottomNavigationAction 
-              label={t('navigation.p3')}
-              value={t('navigation.p3')}
-              icon={
-                <NavLink to="/admin/new-post" style={{ width: '100%', minHeight: '100%' }}>
-                  <Icons.NewPost />
-                </NavLink>}
-            />
-          </BottomNavigation>
+          <Navigation />
         </Header>
         <motion.div style={{
           width: '100%',

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Btn } from 'components/UI/btn';
 import { useTranslation } from 'react-i18next';
 import styled from 'util/styles';
@@ -10,6 +10,7 @@ import { motion, useCycle, useAnimation } from 'framer-motion';
 import Mern from 'components/UI/mern';
 import Tooltip from 'components/UI/tooltip';
 import useIO from 'hooks/useIO';
+import { AuthContext } from 'context/auth-context';
 
 const variants = {
   visible: i => ({
@@ -256,8 +257,8 @@ const MainContainer = styled.div`
   }
 `;
 
-const Home = () => {
-  const { t, i18n } = useTranslation();
+const Home = ({ history }) => {
+  const { t } = useTranslation();
   const [list, setList] = useState(false);
   const [post, setPost] = useState(false);
   const [newPost, setNewPost] = useState(false);
@@ -276,6 +277,13 @@ const Home = () => {
   const IOComponentAnim = useAnimation();
   const controlPostAnim = useAnimation();
   const controlNewPostAnim = useAnimation();
+  const [observer, setElements, entries] = useIO({
+    threshold: [0.5],
+    root: null
+  });
+  const authContext = useContext(AuthContext);
+  const { isAuth, authRedirectPath } = authContext;
+
   const resize = useCallback(
     () => {
       const { innerWidth } = window;
@@ -284,10 +292,6 @@ const Home = () => {
     },
     [width]
   );
-  const [observer, setElements, entries] = useIO({
-    threshold: [0.5],
-    root: null
-  });
 
   useEffect(() => {
     window.addEventListener('resize', resize);
@@ -395,6 +399,20 @@ const Home = () => {
     }
   };
 
+  const goToPathHandler = route => {
+    if (route === 'posts')
+      history.push('/posts');
+
+    if (route === 'create') {
+      if (isAuth) {
+        history.push('/admin/new-post');
+      } else {
+        authRedirectPath('/admin/new-post');
+
+        history.push('/login');
+      }
+    }
+  };
 
   const items = [
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu quam in sapien accumsan pulvinar at ac lacus.',
@@ -517,10 +535,12 @@ const Home = () => {
                     justifyContent: 'center'
                   }}
                 >
-                  <Btn.Secondary variant="contained" size="large">
-                    <NavLink to="/posts">
-                      {t('goPost')}
-                    </NavLink>
+                  <Btn.Secondary 
+                    variant="contained" 
+                    size="large"
+                    onClick={() => goToPathHandler('posts')}
+                  >
+                    {t('goPost')}
                   </Btn.Secondary>
                 </motion.div>
                 <ul>
@@ -606,10 +626,12 @@ const Home = () => {
                     justifyContent: 'center'
                   }}
                 >
-                  <Btn.Secondary variant="contained" size="large">
-                    <NavLink to="/admin/new-post">
-                      {t('createPost')}
-                    </NavLink>
+                  <Btn.Secondary 
+                    variant="contained"
+                    size="large"
+                    onClick={() => goToPathHandler('create')}
+                  >
+                    {isAuth ? t('createPost') : t('loginContinue')}
                   </Btn.Secondary>
                 </motion.div>
               </div> :
@@ -628,6 +650,10 @@ const Home = () => {
       </MainContainer>
     </Flex>
   );
+};
+
+Home.propTypes = {
+  history: PropTypes.object.isRequired,
 };
 
 export default Home;

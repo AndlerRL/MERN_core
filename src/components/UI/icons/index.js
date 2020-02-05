@@ -7,7 +7,8 @@ import {
   LocalOfferTwoTone,
   AddRounded,
   KeyboardArrowUpTwoTone,
-  AccountCircleTwoTone
+  AccountCircleTwoTone,
+  ExitToAppTwoTone
 } from '@material-ui/icons';
 import styled, { themeGet } from 'util/styles';
 
@@ -38,5 +39,8 @@ export const Icons = {
   `,
   Auth: styled(AccountCircleTwoTone)`
     color: ${themeGet('colors.secondary.200')};
-  `
+  `,
+  Logout: styled(ExitToAppTwoTone)`
+    color: ${themeGet('colors.secondary.200')};
+  `,
 };

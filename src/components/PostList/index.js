@@ -81,7 +81,7 @@ const Topic = styled(Paper)`
 `;
 
 const PostList = ({ posts, fetchPost, hasMore }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   
   return (
     <InfiniteScroll

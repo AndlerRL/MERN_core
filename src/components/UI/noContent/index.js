@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import styled from 'util/styles';
+import { Redirect } from 'react-router-dom';
 
 const EndPosts = styled.div`
   background-color: rgb(15, 16, 18);
@@ -14,6 +15,7 @@ const EndPosts = styled.div`
   align-items: center;
   justify-content: center;
 
+  h1,
   h2 {
     position: absolute;
     top: 32px;
@@ -21,8 +23,12 @@ const EndPosts = styled.div`
     letter-spacing: 2px;
     color: #f5f5f5;
     z-index: 100;
-    width: 100%;
     text-align: center;
+
+    &:last-child {
+      top: auto !important;
+      bottom: 0;
+    }
   }
 
   > div {
@@ -55,12 +61,20 @@ const EndPosts = styled.div`
 `;
 
 const NoContent = ({ is404 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const [redirect, setRedirect] = useState(false);
+
+  const redirectHandler = () => setTimeout(() => setRedirect(true), 5000);
+
+  useEffect(() => {
+    is404 && redirectHandler();
+  }, [redirectHandler]);
 
   return (
     <EndPosts>
+      {redirect && <Redirect to="/" />}
       {is404 ?
-        <motion.h1>{t('noContent.404')}</motion.h1> 
+        <motion.h1>{t('noContent.is404.0')}</motion.h1>
         : <motion.h2>{t('noContent.endPost')}</motion.h2>}
       <div>
         <motion.div
@@ -77,12 +91,30 @@ const NoContent = ({ is404 }) => {
           }}
         />
       </div>
+      {is404 && (
+        <motion.h2
+          animate={{
+            opacity: [null, 0.5, 1],
+            scale: [null, 1.05, 1]
+          }}
+          transition={{
+            duration: 2,
+            yoyo: Infinity
+          }}
+        >
+          {t('noContent.is404.1')}…
+        </motion.h2>
+      )}
     </EndPosts>
   )
 };
 
 NoContent.propTypes = {
   is404: PropTypes.bool
+};
+
+NoContent.defaultProps = {
+  is404: false
 };
 
 export default NoContent;

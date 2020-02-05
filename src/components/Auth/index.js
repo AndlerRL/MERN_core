@@ -1,6 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable react/display-name */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Btn } from 'components/UI/btn';
 import { Flex, Box } from 'rebass';
 import styled, { themeGet } from 'util/styles';
@@ -54,62 +55,66 @@ const FormContainer = styled.form`
   }
 `;
 
-const Auth = React.memo(({ children, submit, authOpt, isSignUp }) => {
-  
-  return (
-    <AuthContainer
-      flexDirection="column"
+const Auth = React.memo(({ children, submit, authOpt, isSignUp }) => (
+  <AuthContainer
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="flex-start"
+    width={[10 / 12, 6 / 12, 6 / 12, 5 / 12]}
+    mx="auto"
+    isSignUp={isSignUp}
+  >
+    <Flex
       alignItems="center"
-      justifyContent="flex-start"
-      width={[10 / 12, 6 / 12, 6 / 12, 5 / 12]}
-      mx="auto"
-      isSignUp={isSignUp}
+      justifyContent="center"
+      width={1}
     >
       <Flex
         alignItems="center"
         justifyContent="center"
-        width={1}
+        width={1 / 2}
+        onClick={() => authOpt('sign-in')}
       >
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          width={1 / 2}
-          onClick={() => authOpt('sign-in')}
-        >
-          Sign In
-        </Flex>
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          width={1 / 2}
-          onClick={() => authOpt('sign-up')}
-        >
-          Sign Up
-        </Flex>
+        Sign In
       </Flex>
-      <Box as="hr" width={1} 
-        mx="auto"
-        className="ZoomIn DelayStack" 
-        style={{
-          border: 0,
-          height: '1px',
-          backgroundImage: 'linear-gradient(to right, rgba(240, 244, 195, 0), rgba(128, 203, 196, 0.75), rgba(240, 244, 195, 0))'
-        }}
-      />
-      <FormContainer
-        onSubmit={submit}
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={1 / 2}
+        onClick={() => authOpt('sign-up')}
       >
-        {children}
-        <Btn.Secondary
-          type="submit"
-          variant="contained"
-          size="large"
-        >
-          SUBMIT
-        </Btn.Secondary>
-      </FormContainer>
-    </AuthContainer>
-  );
-});
+        Sign Up
+      </Flex>
+    </Flex>
+    <Box as="hr" width={1} 
+      mx="auto"
+      className="ZoomIn DelayStack" 
+      style={{
+        border: 0,
+        height: '1px',
+        backgroundImage: 'linear-gradient(to right, rgba(240, 244, 195, 0), rgba(128, 203, 196, 0.75), rgba(240, 244, 195, 0))'
+      }}
+    />
+    <FormContainer
+      onSubmit={submit}
+    >
+      {children}
+      <Btn.Secondary
+        type="submit"
+        variant="contained"
+        size="large"
+      >
+        SUBMIT
+      </Btn.Secondary>
+    </FormContainer>
+  </AuthContainer>
+));
+
+Auth.propTypes = {
+  submit: PropTypes.func.isRequired,
+  authOpt: PropTypes.func.isRequired,
+  isSignUp: PropTypes.bool.isRequired,
+  children: PropTypes.any.isRequired
+};
 
 export default Auth;

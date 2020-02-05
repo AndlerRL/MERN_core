@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import { createGlobalStyle, themeGet } from './index';
 
 const GlobalStyles = createGlobalStyle`

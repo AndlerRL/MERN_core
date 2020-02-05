@@ -4,7 +4,9 @@
   "navigation": {
     "p1": "Inicio",
     "p2": "Artículos",
-    "p3": "Crear Artículo"
+    "p3": "Crear Artículo",
+    "p4": "Ingresar",
+    "p5": "Cerrar Sesión"
   },
   "language": {
     "title": "Idioma",
@@ -12,7 +14,7 @@
     "en": "ING (US)"
   },
   "noContent": {
-    "404": "404 - Página No Encontrada.",
+    "is404": ["404 - No se Encontró la Página", "Redireccionando"],
     "endPost": "Bueno, ¡Al parecer ha llegado al final de todo!"
   },
   "postOn": "¡Artículos en línea! Total de Artículos: ",
@@ -26,5 +28,6 @@
     "author": "escrito por ",
     "showMore": "Mostrar Más",
     "filters": "Filtros"
-  }
+  },
+  "loginContinue": "Ingresa para continuar"
 }

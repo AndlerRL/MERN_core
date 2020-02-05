@@ -4,7 +4,9 @@
   "navigation": {
     "p1": "Home",
     "p2": "Posts",
-    "p3": "Create Post"
+    "p3": "Create Post",
+    "p4": "Sign In/Up",
+    "p5": "Logout"
   },
   "language": {
     "title": "Language",
@@ -12,7 +14,7 @@
     "en": "ENG (US)"
   },
   "noContent": {
-    "404": "404 - Page Not Found.",
+    "is404": ["404 - Page Not Found", "Redirecting"],
     "endPost": "Well, it seems you reach at the end of all!"
   },
   "postOn": "Post on! Total Posts: ",
@@ -26,5 +28,6 @@
     "author": "written by ",
     "showMore": "Show More",
     "filters": "Filters"
-  }
+  },
+  "loginContinue": "Sign in to Continue"
 }

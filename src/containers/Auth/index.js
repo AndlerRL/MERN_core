@@ -1,8 +1,12 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-confusing-arrow */
 import AuthComponent from 'components/Auth';
 import Input from 'components/UI/input';
 import { AuthContext } from 'context/auth-context';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Flex, Box } from 'rebass';
 import styled from 'util/styles';
@@ -32,9 +36,9 @@ const AuthContainer = styled(motion.div)`
   z-index: 0;
 `;
 
-const Auth = () => {
+const Auth = React.memo(({ history }) => {
   const { t } = useTranslation('postForm');
-  const [login, setLogin] = useState({
+  const [loginForm, setLoginForm] = useState({
     first: {
       elementType: 'text',
       elementConfig: {
@@ -105,52 +109,53 @@ const Auth = () => {
     }
   });
   const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { processHash, sha1, sha256, sha384, sha512 } = useHash();
+  const authContext = useContext(AuthContext);
+  const { login, redirectPath } = authContext;
 
   useEffect(() => {
-    if (login.first.label !== t('firstName')) {
-      setLogin({
-        ...login,
+    if (loginForm.first.label !== t('firstName')) {
+      setLoginForm({
+        ...loginForm,
         first: {
-          ...login.first,
+          ...loginForm.first,
           label: t('firstName')
         },
         last: {
-          ...login.last,
+          ...loginForm.last,
           label: t('lastName')
         },
         email: {
-          ...login.email,
+          ...loginForm.email,
           label: t('login.email')
         },
         password: {
-          ...login.password,
+          ...loginForm.password,
           label: t('login.password')
         },
         passwordConfirm: {
-          ...login.passwordConfirm,
+          ...loginForm.passwordConfirm,
           label: t('login.confirmPW')
         },
       });
     }
-  });
-  const authContext = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  }, [t, setLoginForm, loginForm]);
 
   const inputChangedHandler = (e, inputId) => {
     const { target } = e;
     const { value } = target;
     let isValid = true;
 
-    const updatedFormEle = updateObject(login[inputId], {
+    const updatedFormEle = updateObject(loginForm[inputId], {
       value,
-      validation: { ...login[inputId].validation,
-        valid: checkValidity(value, login[inputId].validation),
+      validation: { ...loginForm[inputId].validation,
+        valid: checkValidity(value, loginForm[inputId].validation),
         touched: true,
       },
     });
 
-    const updatedForm = updateObject(login, {
+    const updatedForm = updateObject(loginForm, {
       [inputId]: updatedFormEle
     });
 
@@ -161,8 +166,8 @@ const Auth = () => {
     for (const inputIds in updatedForm)
       isValid = updatedForm[inputIds].validation.valid && isValid;
 
-    setLogin(updatedForm);
-    // setLoginIsValid(isValid);
+    setLoginForm(updatedForm);
+    // setLoginFormIsValid(isValid);
   };
 
   const submitHandler = async e => {
@@ -170,7 +175,7 @@ const Auth = () => {
     setLoading(true);
     e.persist();
 
-    const { first, last, email, password } = login;
+    const { first, last, email, password } = loginForm;
 
     if (isSignUp) {
       const newUser = {
@@ -187,16 +192,11 @@ const Auth = () => {
   
       await apiService.createUser(newUser, password.value)
         .then(res => {
-          console.log(res);
           const { Authorization } = res.config.headers;
-          /**
-           * 
-           * 
-           * CREATING MAIL BUT NOT RESPONDING CORRECTLY.
-           * 
-           * 
-           */
-          authContext.login(res.data, Authorization);
+          
+          login(res.data, Authorization);
+
+          history.push(redirectPath);
         })
         .catch(err => {
           console.log({ ...err });
@@ -206,7 +206,9 @@ const Auth = () => {
         .then(res => {
           const { Authorization } = res.config.headers;
           
-          authContext.login(res.data[0], Authorization);
+          login(res.data[0], Authorization);
+
+          history.push(redirectPath);
         })
         .catch(err => {
           console.log({ ...err });
@@ -215,26 +217,26 @@ const Auth = () => {
 
     e.target.reset();
     
-    setLogin({
-      ...login,
+    setLoginForm({
+      ...loginForm,
       first: {
-        ...login.first,
+        ...loginForm.first,
         value: ''
       },
       last: {
-        ...login.last,
+        ...loginForm.last,
         value: ''
       },
       email: {
-        ...login.email,
+        ...loginForm.email,
         value: ''
       },
       password: {
-        ...login.password,
+        ...loginForm.password,
         value: ''
       },
       passwordConfirm: {
-        ...login.passwordConfirm,
+        ...loginForm.passwordConfirm,
         value: ''
       },
     });
@@ -251,10 +253,10 @@ const Auth = () => {
 
   const loginEleArray = [];
 
-  for (const key in login) {
+  for (const key in loginForm) {
     loginEleArray.push({
       id: key,
-      config: login[key]
+      config: loginForm[key]
     });
   }
 
@@ -433,6 +435,10 @@ const Auth = () => {
       </Flex>
     </React.Fragment>
   );
+});
+
+Auth.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default Auth;
