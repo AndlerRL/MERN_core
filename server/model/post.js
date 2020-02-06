@@ -10,12 +10,23 @@ const postSchema = new Schema({
     type: String,
     require: true
   },
+  title: {
+    type: String,
+    require: true,
+  },
   topics: {
     type: Array,
-    default: []
+    default: [],
+    require: true,
   },
-  text: {
-    type: String
+  content: {
+    type: Array,
+    default: [],
+    require: true,
+  },
+  authorId: {
+    type: String,
+    require: true
   },
   date: {
     type: Date,

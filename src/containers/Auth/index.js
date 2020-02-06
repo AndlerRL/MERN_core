@@ -14,6 +14,7 @@ import apiService from 'services/apiService';
 import { checkValidity, updateObject } from 'util/share/utility';
 import useHash from 'hooks/useHash';
 import { motion } from 'framer-motion';
+import { Typography, FormHelperText } from '@material-ui/core';
 
 const InputContainer = styled(motion.div)`
   display: flex;
@@ -109,10 +110,9 @@ const Auth = React.memo(({ history }) => {
     }
   });
   const [isSignUp, setIsSignUp] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { processHash, sha1, sha256, sha384, sha512 } = useHash();
   const authContext = useContext(AuthContext);
-  const { login, redirectPath } = authContext;
+  const { login, redirectPath, getError, loading, clientError, errorConfirm } = authContext;
 
   useEffect(() => {
     if (loginForm.first.label !== t('firstName')) {
@@ -167,28 +167,47 @@ const Auth = React.memo(({ history }) => {
       isValid = updatedForm[inputIds].validation.valid && isValid;
 
     setLoginForm(updatedForm);
+    errorConfirm();
     // setLoginFormIsValid(isValid);
   };
 
   const submitHandler = async e => {
     e.preventDefault();
-    setLoading(true);
     e.persist();
 
     const { first, last, email, password } = loginForm;
 
     if (isSignUp) {
-      const newUser = {
-        first: first.value,
-        last: last.value,
-        email: email.value,
-        password: {
-          sha1,
-          sha256,
-          sha384,
-          sha512
-        }
-      };
+      const whitelist = ['andre.rlucas@outlook.com', 'admin@mern-core.com', 'test@test.com'];
+      const whitelistFilter = whitelist.filter(f => f === email.value);
+      const newUser = {};
+
+      if (whitelistFilter.length === 1) {
+        Object.assign(newUser, {
+          first: first.value,
+          last: last.value,
+          email: email.value,
+          password: {
+            sha1,
+            sha256,
+            sha384,
+            sha512
+          },
+          userType: 2
+        });
+      } else {
+        Object.assign(newUser, {
+          first: first.value,
+          last: last.value,
+          email: email.value,
+          password: {
+            sha1,
+            sha256,
+            sha384,
+            sha512
+          }
+        });
+      }
   
       await apiService.createUser(newUser, password.value)
         .then(res => {
@@ -198,8 +217,12 @@ const Auth = React.memo(({ history }) => {
 
           history.push(redirectPath);
         })
-        .catch(err => {
-          console.log({ ...err });
+        .catch(({ response }) => {
+          const { status, statusText } = response;
+          getError({
+            status,
+            message: statusText
+          });
         });
     } else {
       await apiService.loginUser(email.value, password.value)
@@ -210,8 +233,12 @@ const Auth = React.memo(({ history }) => {
 
           history.push(redirectPath);
         })
-        .catch(err => {
-          console.log({ ...err });
+        .catch(({ response }) => {
+          const { status, statusText } = response;
+          getError({
+            status,
+            message: statusText
+          });
         });
     }
 
@@ -240,7 +267,6 @@ const Auth = React.memo(({ history }) => {
         value: ''
       },
     });
-    setLoading(false);
   };
 
   const authHandler = opt => {
@@ -385,6 +411,7 @@ const Auth = React.memo(({ history }) => {
           authOpt={authHandler}
           isSignUp={isSignUp}
         >
+          {clientError && <FormHelperText error al>[ERROR] {clientError.status} – {clientError.message}</FormHelperText>}
           {isSignUp && (
             <React.Fragment>
               <InputContainer

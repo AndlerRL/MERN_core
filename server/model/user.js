@@ -30,6 +30,14 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
+  posts: {
+    type: Array,
+    default: []
+  },
+  userType: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -26,7 +26,7 @@ ctrl.loginUser = async (req, res) => {
     const sha384 = createHash('sha384').update(password, 'utf8').digest('base64');
     const sha512 = createHash('sha512').update(password, 'utf8').digest('base64');
     
-    await User.find({
+    await User.findOne({
       email, // String
       'password.sha1': sha1,
       'password.sha256': sha256,
@@ -34,12 +34,14 @@ ctrl.loginUser = async (req, res) => {
       'password.sha512': sha512,
     })
       .then(user => {
-        console.log(user);
-
-        if (user)
-          return responseService.json(res, 200, user);
-      
-        throw new Error('Whoops, no user on the system!');
+        if (user !== null) {
+          responseService.json(res, 200, user);
+        } else {
+          const message = 'Email/Password doesn\'t match in our database.';
+          logger.warn(message);
+          responseService.json(res, 304, null, message);
+          res.end();
+        }
       })
       .catch(err => logger.warn(err.message));
   }
@@ -74,7 +76,7 @@ ctrl.createUser = async (req, res, next) => {
     })
       .then(user => {
         if (user !== null) {
-          const message = `I'm sorry, but email ${user.email} already exist on database.`
+          const message = `Email ${user.email} already exist on database.`;
           logger.warn(message);
           responseService.json(res, 304, null, message);
           res.end();

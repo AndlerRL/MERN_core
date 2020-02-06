@@ -7,7 +7,8 @@ const initState = {
   isAuth: null,
   user: null,
   loading: false,
-  error: null,
+  backError: null,
+  clientError: null,
   authRedirectPath: '/'
 };
 
@@ -29,12 +30,19 @@ const authReducer = (state, action) => {
     return {
       ...state,
       loading: false,
-      error: action.error
+      backError: action.backError
+    };
+  case 'CLIENT_ERROR':
+    return {
+      ...state,
+      loading: false,
+      clientError: action.clientError
     };
   case 'ERROR_CONFIRM':
     return {
       ...state,
-      error: null,
+      backError: null,
+      clientError: null,
     };
   case 'SET_PATH':
     return {
@@ -55,8 +63,10 @@ const authReducer = (state, action) => {
 export const AuthContext = React.createContext({
   isAuth: initState.isAuth,
   tryAutoLogin: () => {},
+  getError: () => {},
   login: () => {},
   logout: () => {},
+  errorConfirm: () => {},
 });
 
 const AuthContextProvider = React.memo(({ children }) => {
@@ -90,7 +100,7 @@ const AuthContextProvider = React.memo(({ children }) => {
             .catch(err => {
               dispatch({
                 type: 'AUTH_FAIL',
-                error: err
+                backError: err
               });
             });
         }
@@ -137,10 +147,23 @@ const AuthContextProvider = React.memo(({ children }) => {
     });
   };
 
+  const getClientError = err => {
+    dispatch({
+      type: 'CLIENT_ERROR',
+      clientError: err
+    });
+  };
+
   const authRedirectPathHandler = path => {
     dispatch({
       type: 'SET_PATH',
       authRedirectPath: path
+    });
+  };
+
+  const errorConfirmHandler = () => {
+    dispatch({
+      type: 'ERROR_CONFIRM',
     });
   };
 
@@ -150,7 +173,11 @@ const AuthContextProvider = React.memo(({ children }) => {
       logout: logoutHandler,
       authRedirectPath: authRedirectPathHandler,
       isAuth: authState.isAuth,
-      redirectPath: authState.authRedirectPath
+      redirectPath: authState.authRedirectPath,
+      getError: getClientError,
+      clientError: authState.clientError,
+      backError: authState.backError,
+      errorConfirm: errorConfirmHandler
     }}
     >
       {children}
