@@ -54,65 +54,104 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
   }
 
   const postForm1 = useCallback(
-    formEleArray.map(ele => (
-      ele.config.label === t('firstName') || ele.config.label === t('lastName') ?
-        <Box
-          width={5 / 12}
-          key={ele.id}
-        >
-          <Input
-            invalid={!ele.config.validation.valid}
-            shouldValidate={ele.config.validation}
-            touched={ele.config.validation.touched}
-            elementType={ele.config.elementType}
-            elementConfig={ele.config.elementConfig}
-            value={ele.config.value}
-            label={ele.config.label}
-            htmlFor={ele.config.label}
-            changed={e => onChange(e, ele.id)}
-          />
-        </Box>
-        : null
+    formEleArray.map(ele => (ele.id === 'first' || ele.id === 'last') && (
+      <Box
+        width={5 / 12}
+        key={ele.id}
+      >
+        <Input
+          invalid={!ele.config.validation.valid}
+          shouldValidate={ele.config.validation}
+          touched={ele.config.validation.touched}
+          elementType={ele.config.elementType}
+          elementConfig={ele.config.elementConfig}
+          value={ele.config.value}
+          label={ele.config.label}
+          htmlFor={ele.config.label}
+          changed={e => onChange(e, ele.id)}
+        />
+      </Box>
     )),
     [form]
   );
 
   const postForm2 = useCallback(
-    formEleArray.map(ele => (
-      ele.config.label === t('postContent') ?
-        <Input
-          key={ele.id}
-          invalid={!ele.config.validation.valid}
-          shouldValidate={ele.config.validation}
-          touched={ele.config.validation.touched}
-          elementType={ele.config.elementType}
-          elementConfig={ele.config.elementConfig}
-          value={ele.config.value}
-          label={ele.config.label}
-          htmlFor={ele.config.label}
-          changed={e => onChange(e, ele.id)}
-        />
-        : null
+    formEleArray.map(ele => (ele.id === 'title') && (
+      <Input
+        key={ele.id}
+        invalid={!ele.config.validation.valid}
+        shouldValidate={ele.config.validation}
+        touched={ele.config.validation.touched}
+        elementType={ele.config.elementType}
+        elementConfig={ele.config.elementConfig}
+        value={ele.config.value}
+        label={ele.config.label}
+        htmlFor={ele.config.label}
+        changed={e => onChange(e, ele.id)}
+      />
     )),
     [form]
   );
 
+
   const postForm3 = useCallback(
-    formEleArray.map(ele => (
-      ele.config.label === t('topics') ?
-        <Input
-          key={ele.id}
-          invalid={!ele.config.validation.valid}
-          shouldValidate={ele.config.validation}
-          touched={ele.config.validation.touched}
-          elementType={ele.config.elementType}
-          elementConfig={ele.config.elementConfig}
-          value={ele.config.value}
-          label={ele.config.label}
-          htmlFor={ele.config.label}
-          changed={e => onChange(e, ele.id)}
-        />
-        : null
+    formEleArray.map(ele => (ele.id === 'content') &&
+      ele.config.map((e, i) => {
+        const { imgContent, content } = e;
+        const img = imgContent && (
+          <Input
+            invalid={!imgContent.validation.valid}
+            shouldValidate={imgContent.validation}
+            touched={imgContent.validation.touched}
+            elementType={imgContent.elementType}
+            elementConfig={imgContent.elementConfig}
+            value={imgContent.value}
+            label={imgContent.label}
+            htmlFor={imgContent.label}
+            changed={e => onChange(e, 'imgContent')}
+            disabled
+          />
+        );
+        const contentInput = content && (
+          <Input
+            invalid={!content.validation.valid}
+            shouldValidate={content.validation}
+            touched={content.validation.touched}
+            elementType={content.elementType}
+            elementConfig={content.elementConfig}
+            value={content.value}
+            label={content.label}
+            htmlFor={content.label}
+            changed={e => onChange(e, ele.id)}
+          />
+        );
+        return (
+          <React.Fragment
+            key={i}
+          >
+            {img}
+            {contentInput}
+          </React.Fragment>
+        );
+      })
+    ),
+    [form]
+  );
+
+  const postForm4 = useCallback(
+    formEleArray.map(ele => (ele.id === 'topics') && (
+      <Input
+        key={ele.id}
+        invalid={!ele.config.validation.valid}
+        shouldValidate={ele.config.validation}
+        touched={ele.config.validation.touched}
+        elementType={ele.config.elementType}
+        elementConfig={ele.config.elementConfig}
+        value={ele.config.value}
+        label={ele.config.label}
+        htmlFor={ele.config.label}
+        changed={e => onChange(e, ele.id)}
+      />
     )),
     [form]
   );
@@ -151,6 +190,9 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
         <Box width={11 / 12} my={3}>
           {postForm2}
         </Box>
+        <Box width={11 / 12} my={3}>
+          {postForm3}
+        </Box>
         <Box width={11 / 12} my={3} style={{ position: 'relative' }}>
           <TopicsContainer topicsVal={form.topics.value}>
             {form.topics.value.length && form.topics.value[0] !== '' ?
@@ -162,7 +204,7 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
                 />
               )) : null}
           </TopicsContainer>
-          {postForm3}
+          {postForm4}
           <Text as="span"
             fontWeight="lighter"
             fontSize={1}
@@ -189,8 +231,9 @@ PostForm.propTypes = {
   form: PropTypes.shape({
     first: PropTypes.object.isRequired,
     last: PropTypes.object.isRequired,
-    content: PropTypes.object.isRequired,
-    topics: PropTypes.object.isRequired
+    content: PropTypes.array.isRequired,
+    topics: PropTypes.object.isRequired,
+    title: PropTypes.object.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

@@ -26,6 +26,7 @@ const InputComponent = React.memo(({
   inputRef,
   elementType,
   elementConfig,
+  disabled
 }) => {
   const { t } = useTranslation('postForm');
   let inputElement = null;
@@ -49,7 +50,8 @@ const InputComponent = React.memo(({
         ref={inputRef}
         error={invalid && touched}
         helperText={errorHelperText}
-        required={shouldValidate}
+        required={shouldValidate.required}
+        disabled={disabled}
       />
     );
     break;
@@ -64,7 +66,8 @@ const InputComponent = React.memo(({
         ref={inputRef}
         error={invalid && touched}
         helperText={errorHelperText}
-        required={shouldValidate}
+        required={shouldValidate.required}
+        disabled={disabled}
       />
     );
     break;
@@ -80,8 +83,9 @@ const InputComponent = React.memo(({
         multiline
         error={invalid && touched}
         helperText={errorHelperText}
-        required={shouldValidate}
+        required={shouldValidate.required}
         rows="5"
+        disabled={disabled}
       />
     );
     break;
@@ -96,8 +100,9 @@ const InputComponent = React.memo(({
         onChange={changed}
         ref={inputRef}
         error={invalid && touched}
-        required={shouldValidate}
+        required={shouldValidate.required}
         helperText={errorHelperText || 'Please, select your option'}
+        disabled={disabled}
       >
         {elementConfig.options.map(option => (
           <MenuItem key={option.value} value={option.value}>
@@ -118,7 +123,8 @@ const InputComponent = React.memo(({
         ref={inputRef}
         error={invalid && touched}
         helperText={errorHelperText}
-        required={shouldValidate}
+        required={shouldValidate.required}
+        disabled={disabled}
       />
     );
     break;
@@ -133,7 +139,8 @@ const InputComponent = React.memo(({
         ref={inputRef}
         error={invalid && touched}
         helperText={errorHelperText}
-        required={shouldValidate}
+        required={shouldValidate.required}
+        disabled={disabled}
       />
     );
   }
@@ -151,7 +158,7 @@ InputComponent.propTypes = {
   htmlFor: PropTypes.string.isRequired,
   elementType: PropTypes.string.isRequired,
   changed: PropTypes.func.isRequired,
-  shouldValidate: PropTypes.object,
+  shouldValidate: PropTypes.object.isRequired,
   elementConfig: PropTypes.object.isRequired,
   inputRef: PropTypes.func,
 };

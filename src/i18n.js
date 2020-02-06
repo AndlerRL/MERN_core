@@ -12,7 +12,7 @@ i18n
     // Have a common namespace used around the full app
     ns: ['translations'],
     defaultNS: 'translations',
-    debug: true,
+    debug: false,
     preload: false,
     interpolation: {
       escapeValue: false,

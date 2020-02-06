@@ -82,7 +82,7 @@ const Topic = styled(Paper)`
 
 const PostList = ({ posts, fetchPost, hasMore }) => {
   const { t } = useTranslation();
-  
+
   return (
     <InfiniteScroll
       dataLength={posts && posts.length}
@@ -112,10 +112,10 @@ const PostList = ({ posts, fetchPost, hasMore }) => {
             />
             <CardContent>
               <Typography component="span" color="textSecondary" variant="body2" gutterBottom>
-                {`${t('post.author')}${p.author || `${p.first} ${p.last}`}`}
+                {`${t('post.author')}${p.author}`}
               </Typography>
               <Typography component="p" color="textSecondary" variant="body1" style={{ whiteSpace: 'pre-line' }}>
-                {`${p.text && (p.text).substring(0, 100)} …` || `${p.content && (p.content).substring(0, 100)} …`}
+                {`${(p.content[0].content).substring(0, 100)} …`}
               </Typography>
               <Flex
                 alignItems="center"

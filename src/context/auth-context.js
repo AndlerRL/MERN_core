@@ -177,7 +177,8 @@ const AuthContextProvider = React.memo(({ children }) => {
       getError: getClientError,
       clientError: authState.clientError,
       backError: authState.backError,
-      errorConfirm: errorConfirmHandler
+      errorConfirm: errorConfirmHandler,
+      user: authState.user
     }}
     >
       {children}

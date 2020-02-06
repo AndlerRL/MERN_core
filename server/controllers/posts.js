@@ -49,7 +49,7 @@ ctrl.createPost = async (req, res) => {
     responseService.json(res, 400, err);
   }
 };
-
+// https://via.placeholder.com/1920x720.png?text=Content+Image+PlaceHolder
 ctrl.deletePost = async (req, res) => {
   try {
     const { id } = req.params;
@@ -61,6 +61,26 @@ ctrl.deletePost = async (req, res) => {
     responseService.json(res, 204, {});
   }
   catch (err) {
+    logger.warn(err.message);
+    responseService.json(res, 400, err);
+  }
+};
+
+ctrl.editPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { content, topics, title } = req.body;
+
+    logger.info(`Deleting post with id: ${id}`);
+    
+    await Post.findByIdAndUpdate(id, {
+      title,
+      content,
+      topics,
+      modifiedAt: Date.now
+    });
+  } catch (err) {
     logger.warn(err.message);
     responseService.json(res, 400, err);
   }

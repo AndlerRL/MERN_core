@@ -229,7 +229,7 @@ const Auth = React.memo(({ history }) => {
         .then(res => {
           const { Authorization } = res.config.headers;
           
-          login(res.data[0], Authorization);
+          login(res.data, Authorization);
 
           history.push(redirectPath);
         })

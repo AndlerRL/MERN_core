@@ -47,13 +47,12 @@ const PostContainer = () => {
   };
 
   const fetchPost = async () => {
-    if (posts.length >= (dbLength - 1) && posts.length > 0) {
+    if (posts.length >= dbLength && posts.length > 0) {
       setHasMore(false);
-
       return;
     }
 
-    const postsLength = posts.length + 1;
+    const postsLength = posts.length || 1;
 
     try {
       const res = await apiService.getPosts(postsLength, 5);
