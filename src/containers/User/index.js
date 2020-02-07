@@ -20,7 +20,7 @@ import apiService from 'services/apiService';
 import { Flex } from 'rebass';
 
 const UserContainer = styled(Card)`
-  ${'' /* padding-bottom: ${themeGet('space.7')}px !important; */}
+  ${'' /*  */}
   display: flex;
   flex-direction: column;
   align-items: center;

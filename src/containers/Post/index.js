@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/display-name */
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import apiService from 'services/apiService';
 import PostItem from 'components/Post';
 
-const Post = ({ history, location }) => {
+const Post = React.memo(({ history, location }) => {
   const [post, setPost] = useState(null);
+
+  const getPost = useCallback(id => {
+    if (id === 0)
+      return;
+
+    apiService.getPost(id)
+      .then(res => {
+        console.log(res);
+        setPost(res.data);
+      });
+  }, [setPost]);
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -16,12 +28,9 @@ const Post = ({ history, location }) => {
     }
 
     console.log(postId);
-    apiService.getPost(postId)
-      .then(res => {
-        console.log(res);
-        setPost(res.data);
-      });
-  }, []);
+
+    getPost(postId);
+  }, [getPost]);
 
   const toUserProfileHandler = id => {
     console.log(id);
@@ -39,7 +48,7 @@ const Post = ({ history, location }) => {
       userClick={toUserProfileHandler}
     />
   );
-};
+});
 
 Post.propTypes = {
   location: PropTypes.object,
