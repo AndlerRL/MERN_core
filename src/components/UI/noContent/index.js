@@ -64,11 +64,9 @@ const NoContent = ({ is404 }) => {
   const { t } = useTranslation();
   const [redirect, setRedirect] = useState(false);
 
-  const redirectHandler = () => setTimeout(() => setRedirect(true), 5000);
-
-  useEffect(() => {
-    is404 && redirectHandler();
-  }, [redirectHandler]);
+  const redirectHandler = () => {
+    setRedirect(true);
+  };
 
   return (
     <EndPosts>
@@ -101,8 +99,12 @@ const NoContent = ({ is404 }) => {
             duration: 2,
             yoyo: Infinity
           }}
+          onTap={redirectHandler}
+          style={{
+            cursor: 'pointer'
+          }}
         >
-          {t('noContent.is404.1')}…
+          {t('noContent.is404.1')}
         </motion.h2>
       )}
     </EndPosts>

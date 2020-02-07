@@ -27,6 +27,7 @@ ctrl.listPosts = async (req, res) => {
 ctrl.getPost = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const post = await Post.findById(id);
 
     responseService.json(res, 200, post);

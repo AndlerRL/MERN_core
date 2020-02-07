@@ -80,7 +80,7 @@ const Topic = styled(Paper)`
     ${themeGet('shadows.d1.2')};
 `;
 
-const PostList = ({ posts, fetchPost, hasMore }) => {
+const PostList = ({ posts, fetchPost, hasMore, clicked }) => {
   const { t } = useTranslation();
 
   return (
@@ -128,12 +128,14 @@ const PostList = ({ posts, fetchPost, hasMore }) => {
                     variant="outlined"
                     key={i}
                   >
-                    {t}
+                    #{t}
                   </Topic>
                 ))}
               </Flex>
               <CardActions>
-                <Btn.Secondary>
+                <Btn.Secondary
+                  onClick={() => clicked(p.id)}
+                >
                   {t('post.showMore')}
                 </Btn.Secondary>
               </CardActions>
@@ -148,7 +150,8 @@ const PostList = ({ posts, fetchPost, hasMore }) => {
 PostList.propTypes = {
   posts: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
-  fetchPost: PropTypes.func.isRequired
+  fetchPost: PropTypes.func.isRequired,
+  clicked: PropTypes.object.isRequired
 };
 
 export default PostList;

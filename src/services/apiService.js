@@ -2,10 +2,17 @@
 import axios from 'axios';
 import { createHash } from 'crypto';
 
+const token = localStorage.getItem('token');
+
 const service = {};
 
 service.getPosts = (page, limit) => axios.get(`/api/posts${page ? `?offset=${page}` : ''}${limit ? `&limit=${limit}` : ''}`);
-service.createPost = post => axios.post('/api/posts', post);
+service.getPost = id => axios.get(`/api/posts/${id}`);
+service.createPost = post => axios.post('/api/posts', post, {
+  headers: {
+    Authorization: token
+  }
+});
 service.deletePost = post => axios.delete(`/api/posts/${post.id}`);
 
 service.getUsers = () => axios.get('/api/users');

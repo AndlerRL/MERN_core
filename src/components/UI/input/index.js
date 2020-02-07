@@ -161,6 +161,7 @@ InputComponent.propTypes = {
   shouldValidate: PropTypes.object.isRequired,
   elementConfig: PropTypes.object.isRequired,
   inputRef: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 export default InputComponent;

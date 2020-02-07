@@ -1,6 +1,8 @@
 import React, { Suspense, useContext } from 'react';
 import Home from 'containers/Home';
+import PostList from 'containers/PostList';
 import Post from 'containers/Post';
+import User from 'containers/User';
 import NewPost from 'containers/NewPost';
 import NotFound from 'components/404';
 import Logout from 'components/logout';
@@ -26,7 +28,9 @@ const App = () => {
           {isAuth ? (
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/posts" component={Post} />
+              <Route exact path="/user" component={User} />
+              <Route exact path="/posts" component={PostList} />
+              <Route exact path="/posts/post" component={Post} />
               <Route exact path="/admin/new-post" component={NewPost} />
               <Route exact path="/logout" component={Logout} />
               <Route component={NotFound} />

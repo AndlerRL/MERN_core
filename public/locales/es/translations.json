@@ -14,7 +14,7 @@
     "en": "ING (US)"
   },
   "noContent": {
-    "is404": ["404 - No se Encontró la Página", "Redireccionando"],
+    "is404": ["404 - No se Encontró la Página", "Click para Redireccionar"],
     "endPost": "Bueno, ¡Al parecer ha llegado al final de todo!"
   },
   "postOn": "¡Artículos en línea! Total de Artículos: ",
@@ -26,6 +26,7 @@
   "credits": ["Sitio Web desarrollado por ", ". 2020 ® Todos los Derechos Reservados."],
   "post": {
     "author": "escrito por ",
+    "publish": "publicado el ",
     "showMore": "Mostrar Más",
     "filters": "Filtros"
   },

@@ -14,7 +14,7 @@
     "en": "ENG (US)"
   },
   "noContent": {
-    "is404": ["404 - Page Not Found", "Redirecting"],
+    "is404": ["404 - Page Not Found", "Click to Redirect"],
     "endPost": "Well, it seems you reach at the end of all!"
   },
   "postOn": "Post on! Total Posts: ",
@@ -26,6 +26,7 @@
   "credits": ["Website developed by ", ". 2020 ® All Right Reserved."],
   "post": {
     "author": "written by ",
+    "publish": "published at ",
     "showMore": "Show More",
     "filters": "Filters"
   },
