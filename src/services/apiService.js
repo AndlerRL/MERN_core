@@ -6,7 +6,7 @@ const token = localStorage.getItem('token');
 
 const service = {};
 
-service.getPosts = (page, limit) => axios.get(`/api/posts${page ? `?offset=${page}` : ''}${limit ? `&limit=${limit}` : ''}`);
+service.getPosts = (offset, limit) => axios.get(`/api/posts${offset ? `?offset=${offset}` : ''}${limit ? `&limit=${limit}` : ''}`);
 service.getPost = id => axios.get(`/api/posts/${id}`);
 service.createPost = post => axios.post('/api/posts', post, {
   headers: {

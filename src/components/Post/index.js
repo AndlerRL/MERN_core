@@ -29,6 +29,7 @@ const PostInnerContainer = styled(CardContent)`
   max-width: 52em;
   padding: 32px 0;
   white-space: pre-line;
+  margin-bottom: ${themeGet('space.6')}px;
 `;
 
 const Topic = styled(Paper)`
@@ -42,8 +43,9 @@ const Topic = styled(Paper)`
 `;
 
 const CardImg = styled(CardMedia)`
-  height: ${({ fullwidth }) => (fullwidth ? '66.66vh' : '33.33vh')};
-  width: ${({ fullwidth }) => (fullwidth ? '100%' : '83.333%')} !important;
+  height: ${({ fullWidth }) => (fullWidth ? '66.66vh' : '33.33vh')};
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : '74.999%')} !important;
+  margin: 0 auto 2rem;
 `;
 
 const PostFooter = styled(CardActions)`
@@ -75,12 +77,14 @@ const Post = ({ post, userClick }) => {
         <React.Fragment
           key={i}
         >
-          <CardImg
-            component="img"
-            alt="img-head"
-            image={c.imgContent}
-            fullwidth={(i === 0).toString()}
-          />
+          {c.imgContent !== '' && (
+            <CardImg
+              component="img"
+              alt="img-head"
+              image={c.imgContent}
+              fullWidth={i === 0}
+            />
+          )}
           {i === 0 && (
             <Typography 
               gutterBottom

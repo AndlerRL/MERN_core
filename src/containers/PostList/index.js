@@ -56,10 +56,15 @@ const PostContainer = ({ history, match }) => {
     const postsLength = posts.length || 1;
 
     try {
-      const res = await apiService.getPosts(postsLength, 5);
-      const newPosts = res.data;
+      await apiService.getPosts(postsLength, 5)
+        .then(res => {
+          const newPosts = res.data;
 
-      setPosts([...posts, ...newPosts]);
+          setPosts([...posts, ...newPosts]);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
     catch (err) {
       console.error(err);

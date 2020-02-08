@@ -13,7 +13,6 @@ const Post = React.memo(({ history, location }) => {
 
     apiService.getPost(id)
       .then(res => {
-        console.log(res);
         setPost(res.data);
       });
   }, [setPost]);
@@ -27,13 +26,10 @@ const Post = React.memo(({ history, location }) => {
         postId = param[1];
     }
 
-    console.log(postId);
-
     getPost(postId);
   }, [getPost]);
 
   const toUserProfileHandler = id => {
-    console.log(id);
     const queryString = `${encodeURIComponent('id')}=${encodeURIComponent(id)}`;
 
     history.push({
