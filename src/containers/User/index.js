@@ -20,7 +20,6 @@ import apiService from 'services/apiService';
 import { Flex } from 'rebass';
 
 const UserContainer = styled(Card)`
-  ${'' /*  */}
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,7 +95,7 @@ const User = ({ location }) => {
   const { user } = authContext;
   
   const getUserHandler = id => {
-    if (user.id === id)
+    if (user && user.id === id)
       return;
 
     apiService.getUser(id)
@@ -118,13 +117,12 @@ const User = ({ location }) => {
         userId = param[1];
     }
 
-    console.log(user);
     getUserHandler(userId);
   }, []);
 
   const profileInfo = userData ? userData : user;
   const userInitials = profileInfo && (profileInfo.first).substring(0, 1) + (profileInfo.last).substring(0, 1);
-  return (
+  return profileInfo && (
     <UserContainer>
       <CardImg
         component="img"
