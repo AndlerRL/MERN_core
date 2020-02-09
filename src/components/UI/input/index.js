@@ -44,6 +44,7 @@ const InputComponent = React.memo(({
       <Input
         {...elementConfig}
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}
@@ -60,6 +61,7 @@ const InputComponent = React.memo(({
       <Input
         {...elementConfig}
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}
@@ -76,6 +78,7 @@ const InputComponent = React.memo(({
       <Input
         {...elementConfig}
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}
@@ -95,6 +98,7 @@ const InputComponent = React.memo(({
         {...elementConfig}
         select
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}
@@ -117,6 +121,7 @@ const InputComponent = React.memo(({
       <Input
         {...elementConfig}
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}
@@ -133,6 +138,7 @@ const InputComponent = React.memo(({
       <Input
         {...elementConfig}
         value={value}
+        defaultValue=""
         id={htmlFor}
         label={label}
         onChange={changed}

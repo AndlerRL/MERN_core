@@ -6,6 +6,12 @@ const responseService = require('../services/response');
 const { createHash } = require('crypto');
 const ctrl = {};
 
+const normalizeString = string =>
+  string
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
 ctrl.listUsers = async (req, res) => {
   await User.find()
     .then(users => {
@@ -27,7 +33,7 @@ ctrl.loginUser = async (req, res) => {
     const sha512 = createHash('sha512').update(password, 'utf8').digest('base64');
     
     await User.findOne({
-      email, // String
+      email: normalizeString(email),
       'password.sha1': sha1,
       'password.sha256': sha256,
       'password.sha384': sha384,
@@ -72,7 +78,7 @@ ctrl.createUser = async (req, res, next) => {
     logger.info('Creating User...');
     
     await User.findOne({
-      email
+      email: normalizeString(email)
     })
       .then(user => {
         if (user !== null) {
@@ -90,7 +96,7 @@ ctrl.createUser = async (req, res, next) => {
   
           newUser
             .then(results => {
-              console.log(results);
+              // console.log(results);
               responseService.json(res, 201, results);
               res.end();
             })

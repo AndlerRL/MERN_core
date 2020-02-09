@@ -174,7 +174,7 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete, o
         </Text>
       </Header>
       <Form as="form"
-        onSubmit={onSubmit}
+        onSubmit={e => onSubmit(e)}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"

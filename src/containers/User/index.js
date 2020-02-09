@@ -100,7 +100,7 @@ const User = ({ location }) => {
 
     apiService.getUser(id)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         setUserData(res.data);
       })
       .catch(err => {

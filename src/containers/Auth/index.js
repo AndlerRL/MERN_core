@@ -411,7 +411,7 @@ const Auth = React.memo(({ history }) => {
           authOpt={authHandler}
           isSignUp={isSignUp}
         >
-          {clientError && <FormHelperText error al>[ERROR] {clientError.status} – {clientError.message}</FormHelperText>}
+          {clientError && <FormHelperText error>{clientError.status} – {clientError.message}</FormHelperText>}
           {isSignUp && (
             <React.Fragment>
               <InputContainer

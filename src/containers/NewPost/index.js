@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import PostForm from 'components/PostForm';
 import apiService from 'services/apiService';
 import { updateObject, checkValidity } from 'util/share/utility';
 import { useTranslation } from 'react-i18next';
-import { Flex } from 'rebass';
 import { AuthContext } from 'context/auth-context';
 
-const NewPost = React.memo(() => {
+const NewPost = React.memo(({ history }) => {
   const { t } = useTranslation('postForm');
   const authContext = useContext(AuthContext);
   const { user } = authContext;
-  const [posts, setPosts] = useState([]);
   const [form, setForm] = useState({
     first: {
       elementType: 'text',
@@ -185,8 +184,6 @@ const NewPost = React.memo(() => {
       });
     }
 
-    console.log(updatedForm.content);
-
     if (id === t('topics')) {
       updatedForm = updateObject(form, {
         [inputId]: updatedFormEle,
@@ -214,10 +211,9 @@ const NewPost = React.memo(() => {
 
   const submitHandler = async e => {
     e.preventDefault();
+    e.persist();
 
     setSubmitting(true);
-
-    e.persist();
 
     const { first, last, content, topics, title } = form;
     const contentVals = content.map(c => ({
@@ -235,13 +231,14 @@ const NewPost = React.memo(() => {
       authorId: id
     };
 
-    const res = await apiService.createPost(newPost);
-    const newPosts = [...posts, res.data];
-
-    e.target.reset();
-
-    setPosts(newPosts);
-    setSubmitting(false);
+    await apiService.createPost(newPost)
+      .then(res => {
+        // console.log(res);
+        e.target.reset();
+        setSubmitting(false);
+        history.push('/posts');
+      })
+      .catch(err => console.log(err));
   };
 
   const deleteTopicHandler = topic => {
@@ -308,5 +305,9 @@ const NewPost = React.memo(() => {
     />
   );
 });
+
+NewPost.propTypes = {
+  history: PropTypes.object
+};
 
 export default NewPost;
