@@ -79,7 +79,7 @@ const NewPost = React.memo(() => {
             touched: false,
           }
         }
-      },
+      }
     ],
     topics: {
       elementType: 'text',
@@ -97,6 +97,7 @@ const NewPost = React.memo(() => {
   });
   const [formIsValid, setFormIsValid] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [contentLength, setContentLength] = useState(1);
 
   useEffect(() => {
     if (form.first.label !== t('firstName')) {
@@ -122,14 +123,15 @@ const NewPost = React.memo(() => {
     }
   }, [t, setForm]);
 
-  const inputChangedHandler = (e, inputId) => {
+  const inputChangedHandler = (e, inputId, key) => {
     const { target } = e;
     const { value, id } = target;
     let isValid = true;
 
-    const updatedFormEle = (inputId !== 'content') && updateObject(form[inputId], {
+    const updatedFormEle = inputId !== 'content' && updateObject(form[inputId], {
       value,
-      validation: { ...form[inputId].validation,
+      validation: { 
+        ...form[inputId].validation,
         valid: checkValidity(value, form[inputId].validation),
         touched: true,
       },
@@ -145,31 +147,45 @@ const NewPost = React.memo(() => {
     let updatedForm = updateObject(form, {
       [inputId]: updatedFormEle,
     });
-
-    if (id === t('postContent')) {
+    
+    if (id === `${t('postContent')}_${key}` || id === `${t('imgContent')}_${key}`) {
       updatedForm = updateObject(form, {
         [inputId]: updatedFormEle,
-        content: form.content.map((c, i) => ({
-          /* NO NEED to update value since will be a file-upload in the future. */
-          imgContent: {
-            ...c.imgContent,
-            // value,
-            validation: {
-              ...c.imgContent.validation,
-              valid: checkValidity(value, c.imgContent.validation)
-            }
-          },
-          content: {
-            ...c.content,
-            value,
-            validation: {
-              ...c.content.validation,
-              valid: checkValidity(value, c.content.validation)
-            }
+        // eslint-disable-next-line array-callback-return
+        content: form.content.map((c, i) => {
+          if ((key - 1) === i) {
+            return {
+              imgContent: id === `${t('imgContent')}_${key}` ? {
+                ...c.imgContent,
+                value,
+                validation: {
+                  ...c.imgContent.validation,
+                  valid: checkValidity(value, c.imgContent.validation),
+                  touched: true
+                }
+              } : {
+                ...c.imgContent
+              },
+              content: id === `${t('postContent')}_${key}` ? {
+                ...c.content,
+                value,
+                validation: {
+                  ...c.content.validation,
+                  valid: checkValidity(value, c.content.validation),
+                  touched: true
+                }
+              } : {
+                ...c.content
+              }
+            };
+          } else if ((key - 1 !== i)) {
+            return { ...c };
           }
-        })),
+        }),
       });
     }
+
+    console.log(updatedForm.content);
 
     if (id === t('topics')) {
       updatedForm = updateObject(form, {
@@ -219,8 +235,6 @@ const NewPost = React.memo(() => {
       authorId: id
     };
 
-    console.log(newPost);
-
     const res = await apiService.createPost(newPost);
     const newPosts = [...posts, res.data];
 
@@ -243,6 +257,46 @@ const NewPost = React.memo(() => {
     setForm(updatedForm);
   };
 
+  const addContentHandler = () => {
+    if (form.content.length >= 4) 
+      return;
+
+    setForm({
+      ...form,
+      content: [
+        ...form.content,
+        {
+          imgContent: {
+            elementType: 'text',
+            elementConfig: {
+              type: 'text',
+            },
+            label: t('imgContent'),
+            value: 'https://via.placeholder.com/1920x720.png?text=Content+Image+PlaceHolder',
+            validation: {
+              required: true,
+              valid: false,
+              touched: false,
+            }
+          },
+          content: {
+            elementType: 'textarea',
+            elementConfig: {
+              type: 'textarea',
+            },
+            label: t('postContent'),
+            value: '',
+            validation: {
+              required: true,
+              valid: false,
+              touched: false,
+            }
+          }
+        }
+      ]
+    });
+  };
+
   return (
     <PostForm 
       form={form}
@@ -250,6 +304,7 @@ const NewPost = React.memo(() => {
       onChange={inputChangedHandler}
       onSubmit={submitHandler} 
       onDelete={deleteTopicHandler}
+      onAdd={addContentHandler}
     />
   );
 });

@@ -5,7 +5,7 @@
   "firstName": "First Name",
   "lastName": "Last Name",
   "postContent": "Post Content",
-  "addParagraph": "Add new Paragraph",
+  "addMoreContent": "Add New Section",
   "topics": "Topics",
   "topicsHint": "In order to create new topics on post, use ',' (comma) to separate them.",
   "submitting": "Submitting",

@@ -5,7 +5,7 @@
   "firstName": "Nombre",
   "lastName": "Apellido",
   "postContent": "Contenido del Artículo",
-  "addParagraph": "Agregar nuevo párrafo",
+  "addMoreContent": "Agregar Nueva Sección",
   "topics": "Temas",
   "topicsHint": "Para crear nuevos temas en el artículo, utiliza ',' (coma) para separarlos.",
   "submitting": "Posteando",

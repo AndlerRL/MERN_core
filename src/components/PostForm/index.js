@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { themeGet } from 'util/styles';
 import { Box, Flex, Text } from 'rebass';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -22,7 +22,7 @@ const Form = styled(Flex)`
   max-width: 1000px;
   border-radius: 4px;
   background: linear-gradient(45deg, #2222 16.666%, #7772 83.333%);
-  margin: 0 auto;
+  margin: 0 auto ${themeGet('space.5')}px;
   padding: 16px 32px;
 
   > div {
@@ -42,7 +42,7 @@ const TopicsContainer = styled(Flex)`
   }
 `;
 
-const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete }) => {
+const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete, onAdd }) => {
   const { t } = useTranslation('postForm');
   const formEleArray = [];
 
@@ -95,9 +95,10 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
 
 
   const postForm3 = useCallback(
-    formEleArray.map(ele => (ele.id === 'content') &&
+    formEleArray.map(ele => ele.id === 'content' &&
       ele.config.map((e, i) => {
         const { imgContent, content } = e;
+        const { length } = ele.config;
         const img = imgContent && (
           <Input
             invalid={!imgContent.validation.valid}
@@ -107,8 +108,8 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
             elementConfig={imgContent.elementConfig}
             value={imgContent.value}
             label={imgContent.label}
-            htmlFor={imgContent.label}
-            changed={e => onChange(e, 'imgContent')}
+            htmlFor={`${imgContent.label}_${length}`}
+            changed={e => onChange(e, 'imgContent', length)}
             disabled
           />
         );
@@ -121,8 +122,8 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
             elementConfig={content.elementConfig}
             value={content.value}
             label={content.label}
-            htmlFor={content.label}
-            changed={e => onChange(e, ele.id)}
+            htmlFor={`${content.label}_${length}`}
+            changed={e => onChange(e, ele.id, length)}
           />
         );
         return (
@@ -192,6 +193,16 @@ const PostForm = React.memo(({ form, submitting, onSubmit, onChange, onDelete })
         </Box>
         <Box width={11 / 12} my={3}>
           {postForm3}
+        </Box>
+        <Box width={11 / 12} my={3}>
+          <Btn.Primary
+            variant="contained"
+            size="large"
+            onClick={onAdd}
+            disabled={form.content.length >= 4}
+          >
+            {t('addMoreContent')}
+          </Btn.Primary>
         </Box>
         <Box width={11 / 12} my={3} style={{ position: 'relative' }}>
           <TopicsContainer topicsVal={form.topics.value}>
