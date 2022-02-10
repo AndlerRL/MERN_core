@@ -40,7 +40,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "log4js": "^6.1.0",
     "mongoose": "^5.8.3",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "raf": "^3.4.1",
     "react": "^16.8.6",
